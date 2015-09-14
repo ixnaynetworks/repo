@@ -13,7 +13,7 @@ my($file) = @ARGV;
 my($sh);
 
 if($file) {
-  open($sh, ">", $file);
+  open($sh, ">", "/var/www/mon/$file");
 }
 else {
   open($sh, ">-");
@@ -38,7 +38,7 @@ if($file)
   my($name) = `/bin/hostname`;
   chomp($name);
 
-  my($cmd) = "/usr/bin/scp $file uaws:www/vhosts/ixnay/htdocs/cams/$name/status_router.txt";
+  my($cmd) = "/usr/bin/scp /var/www/mon/$file uaws:www/vhosts/ixnay/htdocs/cams/$name/$file";
   print "$cmd\n";
   $out = `$cmd`;
   print "$out\n";

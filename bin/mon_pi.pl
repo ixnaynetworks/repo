@@ -43,7 +43,7 @@ if($file)
   my($name) = `/bin/hostname`;
   chomp($name);
 
-  my($cmd) = "/usr/bin/scp $file uaws:www/vhosts/ixnay/htdocs/cams/$name/status.txt";
+  my($cmd) = "/usr/bin/scp $file uaws:www/vhosts/ixnay/htdocs/cams/$name/status_pi.txt";
   print "$cmd\n";
   $out = `$cmd`;
   print "$out\n";

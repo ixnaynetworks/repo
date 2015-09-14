@@ -35,7 +35,7 @@ print $sh "\n##########\n\n";
 &cmd_print($sh, "/bin/df -h");
 
 print $sh "\n##########\n\n";
-&cmd_print($sh, "/usr/bin/top -b -n1 | /usr/bin/head -20");
+&cmd_print($sh, "/usr/bin/top -b -n1 | /usr/bin/head -30");
 
 #
 # upload
@@ -73,7 +73,7 @@ sub cmd_temp_print
   my($cmd) = "/opt/vc/bin/vcgencmd measure_temp";
   print $sh "$cmd\n";
   $out = `$cmd`;
-  print $sh "$out\n";
+  print $sh "$out";
 
   if($out =~ /^temp=(.*)'C/) {
     my($f) = (($1 * 9) / 5) + 32;

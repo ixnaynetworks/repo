@@ -77,7 +77,7 @@ sub cmd_temp_print
 
   if($out =~ /^temp=(.*)'C/) {
     my($f) = (($1 * 9) / 5) + 32;
-    print $sh "temp=$f\'F\n";
+    printf $sh "temp=%.1f'F\n", $f;
   }
 }
 

@@ -29,10 +29,13 @@ print $sh "\n##########\n\n";
 &cmd_print($sh, "/usr/bin/uptime");
 
 print $sh "\n##########\n\n";
+&cmd_temp_print($sh);
+
+print $sh "\n##########\n\n";
 &cmd_print($sh, "/bin/df -h");
 
 print $sh "\n##########\n\n";
-&cmd_print($sh, "/usr/bin/top -b -n1");
+&cmd_print($sh, "/usr/bin/top -b -n1 | /usr/bin/head -20");
 
 #
 # upload
@@ -61,5 +64,20 @@ sub cmd_print
   print $sh "$cmd\n";
   $out = `$cmd`;
   print $sh "$out\n";
+}
+
+sub cmd_temp_print
+{
+  my($sh) = @_;
+
+  my($cmd) = "/opt/vc/bin/vcgencmd measure_temp";
+  print $sh "$cmd\n";
+  $out = `$cmd`;
+  print $sh "$out\n";
+
+  if($out =~ /^temp=(.*)'C/) {
+    my($f) = (($1 * 9) / 5) + 32;
+    print $sh "temp=$f\'F\n";
+  }
 }
 

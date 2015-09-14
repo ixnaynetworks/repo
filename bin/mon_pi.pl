@@ -35,7 +35,8 @@ print $sh "\n##########\n\n";
 &cmd_print($sh, "/bin/df -h");
 
 print $sh "\n##########\n\n";
-&cmd_print($sh, "/usr/bin/top -b -n1 | /usr/bin/head -30");
+&cmd_print($sh, "/usr/bin/top -b -n1");
+#&cmd_print($sh, "/usr/bin/top -b -n1 | /usr/bin/head -30");
 
 #
 # upload

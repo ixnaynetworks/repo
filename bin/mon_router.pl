@@ -61,13 +61,13 @@ sub my_get_token
   my $cmd = "/usr/bin/curl -s -1 -k 'https://192.168.2.1/api/logout?username=admin&password=admin'";
   my $out = `$cmd`;
   #print $sh "\n$cmd";
-  print $sh "\n$out";
+  #print $sh "\n$out";
 
   print $sh "\nlogging in...\n";
   $cmd = "/usr/bin/curl -s -1 -k 'https://192.168.2.1/api/login?username=admin&password=admin'";
   $out = `$cmd`;
   #print $sh "\n$cmd";
-  print $sh "\n$out";
+  #print $sh "\n$out";
   if($out =~ /"token" : "(.*?)"/) {
     $token = $1;
   }

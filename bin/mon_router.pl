@@ -61,7 +61,7 @@ sub my_get_token
   my $cmd = "/usr/bin/curl -s -1 -k 'https://192.168.2.1/api/logout?username=admin&password=admin'";
   my $out = `$cmd`;
   $cmd =~ s/password=.*'/password=password'/;
-  $out =~ s/permission" : ".*")/permission : "password"/;
+  $out =~ s/permission" : ".*"/permission : "password"/;
   print $sh "\n$cmd";
   print $sh "\n$out";
 
@@ -69,7 +69,7 @@ sub my_get_token
   $cmd = "/usr/bin/curl -s -1 -k 'https://192.168.2.1/api/login?username=admin&password=admin'";
   $out = `$cmd`;
   $cmd =~ s/password=.*'/password=password'/;
-  $out =~ s/permission" : ".*")/permission : "password"/;
+  $out =~ s/permission" : ".*"/permission : "password"/;
   print $sh "\n$cmd";
   print $sh "\n$out";
   if($out =~ /"token" : "(.*?)"/) {

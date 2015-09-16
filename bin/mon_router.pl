@@ -27,6 +27,9 @@ $token = &my_get_token();
 print $sh "token=$token\n";
 
 print $sh "\n##########\n\n";
+&cmd_router_print($token, "system/uptime");
+
+print $sh "\n##########\n\n";
 &cmd_router_print($token, "stats/radio");
 
 #
@@ -57,12 +60,14 @@ sub my_get_token
   print $sh "\ngetting token...\n";
   my $cmd = "/usr/bin/curl -s -1 -k 'https://192.168.2.1/api/logout?username=admin&password=admin'";
   my $out = `$cmd`;
-  print $sh "\n$cmd\n$out\n";
+  #print $sh "\n$cmd";
+  print $sh "\n$out";
 
   print $sh "\nlogging in...\n";
   $cmd = "/usr/bin/curl -s -1 -k 'https://192.168.2.1/api/login?username=admin&password=admin'";
   $out = `$cmd`;
-  print $sh "\n$cmd\n$out\n";
+  #print $sh "\n$cmd";
+  print $sh "\n$out";
   if($out =~ /"token" : "(.*?)"/) {
     $token = $1;
   }

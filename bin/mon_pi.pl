@@ -32,6 +32,9 @@ print $sh "\n##########\n\n";
 &cmd_temp_print($sh);
 
 print $sh "\n##########\n\n";
+&cmd_print($sh, "/usr/sbin/mopicli");
+
+print $sh "\n##########\n\n";
 &cmd_print($sh, "/bin/df -h");
 
 print $sh "\n##########\n\n";

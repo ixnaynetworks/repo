@@ -12,10 +12,19 @@ my($file) = @ARGV;
 
 my($sh);
 
-if($file) {
-  open($sh, ">", "/var/www/mon/$file");
+my $remote;
+if($file)
+{
+  ## compute filename
+  my($sec, $min, $hr, $day, $mon, $year) = localtime(time);
+  $year += 1900;
+  $mon++;
+  $remote = sprintf("%4d%02d%02d%02d%02d%02d.txt", $year, $mon, $day, $hr, $min, $sec);
+
+  open($sh, ">", "/var/www/status_pi/$remote");
 }
-else {
+else
+{
   open($sh, ">-");
 }
 
@@ -50,7 +59,7 @@ if($file)
   my($name) = `/bin/hostname`;
   chomp($name);
 
-  my($cmd) = "/usr/bin/scp /var/www/mon/$file uaws:www/vhosts/ixnay/htdocs/cams/$name/$file";
+  my($cmd) = "/usr/bin/scp /var/www/status_pi/$remote uaws:www/vhosts/ixnay/htdocs/cams/$name/status_pi/$remote";
   print "$cmd\n";
   $out = `$cmd`;
   print "$out\n";
@@ -59,13 +68,7 @@ if($file)
   # archive remote file
   #
 
-  ## compute filename
-  my($sec, $min, $hr, $day, $mon, $year) = localtime(time);
-  $year += 1900;
-  $mon++;
-  my $remote = sprintf("%4d%02d%02d%02d%02d%02d.txt", $year, $mon, $day, $hr, $min, $sec);
-
-  $cmd = "/usr/bin/ssh uaws /bin/cp www/vhosts/ixnay/htdocs/cams/$name/$file www/vhosts/ixnay/htdocs/cams/$name/status_pi/$remote";
+  $cmd = "/usr/bin/ssh uaws /bin/cp www/vhosts/ixnay/htdocs/cams/$name/status_pi/$remote www/vhosts/ixnay/htdocs/cams/$name/$file";
   print "$cmd\n";
   $out = `$cmd`;
   print "$out\n";

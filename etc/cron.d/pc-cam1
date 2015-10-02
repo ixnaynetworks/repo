@@ -6,14 +6,15 @@ TZ=America/Denver
 #55 4-20 * * * pi /usr/bin/wget http://www.pinecreekskiresort.com/webcam/conf/cam2/webcam.txt -O /home/pi/bin/webcam.pl
 #59 4-20 * * * pi /bin/chmod 755 /home/pi/bin/webcam.pl
 
-30,40,50    6 * * * pi /home/pi/bin/webcam.pl >> /home/pi/log/webcam 2>&1
-    */10 6-19 * * * pi /home/pi/bin/webcam.pl >> /home/pi/log/webcam 2>&1
-       0   20 * * * pi /home/pi/bin/webcam.pl >> /home/pi/log/webcam 2>&1
+30,35,40,45,50,55    6 * * * pi /home/pi/bin/webcam.pl >> /home/pi/log/webcam 2>&1
+              */5 6-19 * * * pi /home/pi/bin/webcam.pl >> /home/pi/log/webcam 2>&1
+                0   20 * * * pi /home/pi/bin/webcam.pl >> /home/pi/log/webcam 2>&1
 
 #30   21 * * * pi /home/pi/bin/ppp_disable.pl
 
-0 4 * * * pi /usr/bin/find /home/pi/tmp -name "*.jpg" -mtime +1 -delete
+ 0 4 * * * pi /usr/bin/find /home/pi/tmp -name "*.jpg" -mtime +1 -delete
+30 4 * * * pi /usr/bin/find /var/www/arc -name "*.jpg" -mtime +7 -delete
 
-5,15,25,35,45,55 * * * * pi /home/pi/bin/mon_pi.pl     status_pi.txt
-5                * * * * pi /home/pi/bin/mon_router.pl status_router.txt
+3,13,23,33,43,53 * * * * pi /home/pi/bin/mon_pi.pl     status_pi.txt
+4                * * * * pi /home/pi/bin/mon_router.pl status_router.txt
 

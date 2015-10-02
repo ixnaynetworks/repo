@@ -12,10 +12,19 @@ my($file) = @ARGV;
 
 my($sh);
 
-if($file) {
-  open($sh, ">", "/var/www/mon/$file");
+my $remote;
+if($file)
+{
+  ## compute filename
+  my($sec, $min, $hr, $day, $mon, $year) = localtime(time);
+  $year += 1900;
+  $mon++;
+  $remote = sprintf("%4d%02d%02d%02d%02d%02d.txt", $year, $mon, $day, $hr, $min, $sec);
+
+  open($sh, ">", "/var/www/status_router/$remote");
 }
-else {
+else
+{
   open($sh, ">-");
 }
 
@@ -41,7 +50,16 @@ if($file)
   my($name) = `/bin/hostname`;
   chomp($name);
 
-  my($cmd) = "/usr/bin/scp /var/www/mon/$file uaws:www/vhosts/ixnay/htdocs/cams/$name/$file";
+  my($cmd) = "/usr/bin/scp /var/www/status_router/$remote uaws:www/vhosts/ixnay/htdocs/cams/$name/status_router/$remote";
+  print "$cmd\n";
+  $out = `$cmd`;
+  print "$out\n";
+
+  #
+  # archive remote file
+  #
+
+  $cmd = "/usr/bin/ssh uaws /bin/cp www/vhosts/ixnay/htdocs/cams/$name/status_router/$remote www/vhosts/ixnay/htdocs/cams/$name/$file";
   print "$cmd\n";
   $out = `$cmd`;
   print "$out\n";

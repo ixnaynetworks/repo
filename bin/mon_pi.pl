@@ -54,6 +54,21 @@ if($file)
   print "$cmd\n";
   $out = `$cmd`;
   print "$out\n";
+
+  #
+  # archive remote file
+  #
+
+  ## compute filename
+  my($sec, $min, $hr, $day, $mon, $year) = localtime(time);
+  $year += 1900;
+  $mon++;
+  my $remote = sprintf("%4d%02d%02d%02d%02d%02d.txt", $year, $mon, $day, $hr, $min, $sec);
+
+  $cmd = "/usr/bin/ssh uaws /bin/cp www/vhosts/ixnay/htdocs/cams/$name/$file www/vhosts/ixnay/htdocs/cams/$name/status_pi/$remote";
+  print "$cmd\n";
+  $out = `$cmd`;
+  print "$out\n";
 }
 
 exit;

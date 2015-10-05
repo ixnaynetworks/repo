@@ -7,7 +7,7 @@ TZ=America/Denver
 #59 4-20 * * * pi /bin/chmod 755 /home/pi/bin/webcam.pl
 
 30,35,40,45,50,55    6 * * * pi /home/pi/bin/webcam.pl >> /home/pi/log/webcam 2>&1
-              */5 6-19 * * * pi /home/pi/bin/webcam.pl >> /home/pi/log/webcam 2>&1
+              */5 7-19 * * * pi /home/pi/bin/webcam.pl >> /home/pi/log/webcam 2>&1
                 0   20 * * * pi /home/pi/bin/webcam.pl >> /home/pi/log/webcam 2>&1
 
 #30   21 * * * pi /home/pi/bin/ppp_disable.pl

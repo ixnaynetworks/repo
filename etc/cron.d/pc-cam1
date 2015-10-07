@@ -15,6 +15,6 @@ TZ=America/Denver
  0 4 * * * pi /usr/bin/find /home/pi/tmp -name "*.jpg" -mtime +1 -delete
 30 4 * * * pi /usr/bin/find /var/www/arc -name "*.jpg" -mtime +7 -delete
 
-3,13,23,33,43,53 * * * * pi /home/pi/bin/mon_pi.pl     status_pi.txt
-4                * * * * pi /home/pi/bin/mon_router.pl status_router.txt
+3,13,23,33,43,53 6-20 * * * pi /home/pi/bin/mon_pi.pl     status_pi.txt
+4                6-20 * * * pi /home/pi/bin/mon_router.pl status_router.txt
 

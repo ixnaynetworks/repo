@@ -38,6 +38,9 @@ print $sh "\n##########\n\n";
 &cmd_print($sh, "/usr/bin/uptime");
 
 print $sh "\n##########\n\n";
+&cmd_print($sh, "/usr/bin/sudo /usr/sbin/traceroute -T -n 54.69.208.7");
+
+print $sh "\n##########\n\n";
 &cmd_temp_print($sh);
 
 print $sh "\n##########\n\n";

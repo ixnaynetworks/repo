@@ -46,7 +46,7 @@ print $sh "\n$cmd", $date;
 # uptime
 #
 
-$cmd = "/usr/bin/uptime");
+$cmd = "/usr/bin/uptime";
 $out = `$cmd`;
 print $sh "\n##########\n\n", "\n$cmd", $out;
 
@@ -82,7 +82,7 @@ print $sh "\n##########\n\n", "\n$cmd", $out;
 # mopicli
 #
 
-$cmd = "/usr/sbin/mopicli -e");
+$cmd = "/usr/sbin/mopicli -e";
 $out = `$cmd`;
 print $sh "\n##########\n\n", "\n$cmd", $out;
 
@@ -90,7 +90,7 @@ print $sh "\n##########\n\n", "\n$cmd", $out;
 # df
 #
 
-$cmd = "/bin/df -h");
+$cmd = "/bin/df -h";
 $out = `$cmd`;
 print $sh "\n##########\n\n", "\n$cmd", $out;
 
@@ -103,7 +103,7 @@ if($out =~ /dev\/root.* (\d\d?)\%/) {
 # top
 #
 
-$cmd = "/usr/bin/top -b -n1 | /usr/bin/head -30");
+$cmd = "/usr/bin/top -b -n1 | /usr/bin/head -30";
 $out = `$cmd`;
 print $sh "\n##########\n\n", "\n$cmd", $out;
 

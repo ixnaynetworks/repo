@@ -107,9 +107,6 @@ $cmd = "/usr/bin/top -b -n1 | /usr/bin/head -30";
 $out = `$cmd`;
 print $sh "\n##########\n\n", "$cmd\n", $out;
 
-exit;
-
-
 #
 # upload
 #

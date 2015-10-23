@@ -141,9 +141,10 @@ if($file)
   chomp($date);
 
   $cmd = $ssh;
-  $cmd .= "  echo \"$date $temp\" >> $base/graphs/temp.dat";
+  $cmd .= "' echo \"$date $temp\" >> $base/graphs/temp.dat";
   $cmd .= "; echo \"$date $net\"  >> $base/graphs/net.dat";
   $cmd .= "; echo \"$date $disk\" >> $base/graphs/disk.dat";
+  $cmd .= "'";
 
   print "$cmd\n";
   $out = `$cmd`;

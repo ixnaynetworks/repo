@@ -38,7 +38,7 @@ my($cmd, $out);
 # date
 #
 
-$cmd = "/bin/date +\"%D %T\"");
+$cmd = "/bin/date +\"%D %T\"";
 my $date = `$cmd`;
 print $sh "\n$cmd", $date;
 

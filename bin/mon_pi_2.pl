@@ -40,7 +40,7 @@ my($cmd, $out);
 
 $cmd = "/bin/date +\"%D %T\"";
 my $date = `$cmd`;
-print $sh "\n$cmd", $date;
+print $sh "\n$cmd\n", $date;
 
 #
 # uptime
@@ -48,7 +48,7 @@ print $sh "\n$cmd", $date;
 
 $cmd = "/usr/bin/uptime";
 $out = `$cmd`;
-print $sh "\n##########\n\n", "\n$cmd", $out;
+print $sh "\n##########\n\n", "$cmd\n", $out;
 
 #
 # traceroute
@@ -56,7 +56,7 @@ print $sh "\n##########\n\n", "\n$cmd", $out;
 
 $cmd = "/usr/bin/sudo /usr/sbin/traceroute -T -n 54.69.208.7";
 $out = `$cmd`;
-print $sh "\n##########\n\n", "\n$cmd", $out;
+print $sh "\n##########\n\n", "$cmd\n", $out;
 
 my $net;
 if($out =~ /54.69.208.7\s+([\d\.]+) ms\s+([\d\.]+) ms\s+([\d\.]+) ms/) {
@@ -76,7 +76,7 @@ if($out =~ /^temp=(.*)'C/) {
   $out =~ s/^temp=.*'C/temp=$temp\'F/;
 }
 
-print $sh "\n##########\n\n", "\n$cmd", $out;
+print $sh "\n##########\n\n", "$cmd\n", $out;
 
 #
 # mopicli
@@ -84,7 +84,7 @@ print $sh "\n##########\n\n", "\n$cmd", $out;
 
 $cmd = "/usr/sbin/mopicli -e";
 $out = `$cmd`;
-print $sh "\n##########\n\n", "\n$cmd", $out;
+print $sh "\n##########\n\n", "$cmd\n", $out;
 
 #
 # df
@@ -92,7 +92,7 @@ print $sh "\n##########\n\n", "\n$cmd", $out;
 
 $cmd = "/bin/df -h";
 $out = `$cmd`;
-print $sh "\n##########\n\n", "\n$cmd", $out;
+print $sh "\n##########\n\n", "$cmd\n", $out;
 
 my $disk;
 if($out =~ /dev\/root.* (\d\d?)\%/) {
@@ -105,7 +105,7 @@ if($out =~ /dev\/root.* (\d\d?)\%/) {
 
 $cmd = "/usr/bin/top -b -n1 | /usr/bin/head -30";
 $out = `$cmd`;
-print $sh "\n##########\n\n", "\n$cmd", $out;
+print $sh "\n##########\n\n", "$cmd\n", $out;
 
 exit;
 

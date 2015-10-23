@@ -116,7 +116,9 @@ if($file)
   my($name) = `/bin/hostname`;
   chomp($name);
 
-  my($cmd) = "/usr/bin/scp /var/www/status_pi/$remote uaws:www/vhosts/ixnay/htdocs/cams/$name/status_pi/$remote";
+  $base = "www/vhosts/ixnay/htdocs/cams/$name";
+
+  my($cmd) = "/usr/bin/scp /var/www/status_pi/$remote uaws:$base/status_pi/$remote";
   print "$cmd\n";
   $out = `$cmd`;
   print "$out\n";
@@ -127,7 +129,7 @@ if($file)
 
   $ssh = "/usr/bin/ssh uaws ";
 
-  $cmd = "$ssh /bin/cp www/vhosts/ixnay/htdocs/cams/$name/status_pi/$remote www/vhosts/ixnay/htdocs/cams/$name/$file";
+  $cmd = "$ssh /bin/cp $base/status_pi/$remote $base/$file";
   print "$cmd\n";
   $out = `$cmd`;
   print "$out\n";
@@ -137,13 +139,11 @@ if($file)
   #
 
   chomp($date);
-  $cam = `/usr/bin/hostname`;
-  $base = "/home/michael/www/vhosts/ixnay/htdocs/cams/$cam/graphs";
 
   $cmd = $ssh;
-  $cmd .= "  echo \"$date $temp\" >> $base/temp.dat";
-  $cmd .= "; echo \"$date $net\"  >> $base/net.dat";
-  $cmd .= "; echo \"$date $disk\" >> $base/disk.dat";
+  $cmd .= "  echo \"$date $temp\" >> $base/graphs/temp.dat";
+  $cmd .= "; echo \"$date $net\"  >> $base/graphs/net.dat";
+  $cmd .= "; echo \"$date $disk\" >> $base/graphs/disk.dat";
 
   print "$cmd\n";
   $out = `$cmd`;

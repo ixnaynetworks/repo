@@ -144,8 +144,8 @@ if($file)
   $cmd .= "' echo \"$date $temp\" >> $base/graphs/temp.txt";
   $cmd .= "; echo \"$date $net\"  >> $base/graphs/net.txt";
   $cmd .= "; echo \"$date $disk\" >> $base/graphs/disk.txt";
-  $cmd .= "'";
   $cmd .= "; www/vhosts/ixnay/bin/graph3.pl $name";
+  $cmd .= "'";
 
   print "$cmd\n";
   $out = `$cmd`;

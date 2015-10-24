@@ -32,26 +32,80 @@ else
 # run some commands
 #
 
-&cmd_print($sh, "/bin/date");
+my($cmd, $out);
 
-print $sh "\n##########\n\n";
-&cmd_print($sh, "/usr/bin/uptime");
+#
+# date
+#
 
-print $sh "\n##########\n\n";
-&cmd_print($sh, "/usr/bin/sudo /usr/sbin/traceroute -T -n 54.69.208.7");
+$cmd = "/bin/date +\"%D %T\"";
+my $date = `$cmd`;
+print $sh "\n$cmd\n", $date;
 
-print $sh "\n##########\n\n";
-&cmd_temp_print($sh);
+#
+# uptime
+#
 
-print $sh "\n##########\n\n";
-&cmd_print($sh, "/usr/sbin/mopicli -e");
+$cmd = "/usr/bin/uptime";
+$out = `$cmd`;
+print $sh "\n##########\n\n", "$cmd\n", $out;
 
-print $sh "\n##########\n\n";
-&cmd_print($sh, "/bin/df -h");
+#
+# traceroute
+#
 
-print $sh "\n##########\n\n";
-#&cmd_print($sh, "/usr/bin/top -b -n1");
-&cmd_print($sh, "/usr/bin/top -b -n1 | /usr/bin/head -30");
+$cmd = "/usr/bin/sudo /usr/sbin/traceroute -T -n 54.69.208.7";
+$out = `$cmd`;
+print $sh "\n##########\n\n", "$cmd\n", $out;
+
+my $net;
+if($out =~ /54.69.208.7\s+([\d\.]+) ms\s+([\d\.]+) ms\s+([\d\.]+) ms/) {
+  $net = ($1 + $2 + $3) / 3;
+}
+
+#
+# temp
+#
+
+$cmd = "/opt/vc/bin/vcgencmd measure_temp";
+$out = `$cmd`;
+
+my $temp;
+if($out =~ /^temp=(.*)'C/) {
+  $temp = sprintf "%.1f", (($1 * 9) / 5) + 32;
+  $out =~ s/^temp=.*'C/temp=$temp\'F/;
+}
+
+print $sh "\n##########\n\n", "$cmd\n", $out;
+
+#
+# mopicli
+#
+
+$cmd = "/usr/sbin/mopicli -e";
+$out = `$cmd`;
+print $sh "\n##########\n\n", "$cmd\n", $out;
+
+#
+# df
+#
+
+$cmd = "/bin/df -h";
+$out = `$cmd`;
+print $sh "\n##########\n\n", "$cmd\n", $out;
+
+my $disk;
+if($out =~ /dev\/root.* (\d\d?)\%/) {
+  $disk = $1;
+}
+
+#
+# top
+#
+
+$cmd = "/usr/bin/top -b -n1 | /usr/bin/head -30";
+$out = `$cmd`;
+print $sh "\n##########\n\n", "$cmd\n", $out;
 
 #
 # upload
@@ -62,7 +116,9 @@ if($file)
   my($name) = `/bin/hostname`;
   chomp($name);
 
-  my($cmd) = "/usr/bin/scp /var/www/status_pi/$remote uaws:www/vhosts/ixnay/htdocs/cams/$name/status_pi/$remote";
+  $base = "www/vhosts/ixnay/htdocs/cams/$name";
+
+  my($cmd) = "/usr/bin/scp /var/www/status_pi/$remote uaws:$base/status_pi/$remote";
   print "$cmd\n";
   $out = `$cmd`;
   print "$out\n";
@@ -71,38 +127,29 @@ if($file)
   # archive remote file
   #
 
-  $cmd = "/usr/bin/ssh uaws /bin/cp www/vhosts/ixnay/htdocs/cams/$name/status_pi/$remote www/vhosts/ixnay/htdocs/cams/$name/$file";
+  $ssh = "/usr/bin/ssh uaws ";
+
+  $cmd = "$ssh /bin/cp $base/status_pi/$remote $base/$file";
+  print "$cmd\n";
+  $out = `$cmd`;
+  print "$out\n";
+
+  #
+  # write them to the dat files on the server...
+  #
+
+  chomp($date);
+
+  $cmd = $ssh;
+  $cmd .= "' echo \"$date $temp\" >> $base/graphs/temp.txt";
+  $cmd .= "; echo \"$date $net\"  >> $base/graphs/net.txt";
+  $cmd .= "; echo \"$date $disk\" >> $base/graphs/disk.txt";
+  $cmd .= "'";
+
   print "$cmd\n";
   $out = `$cmd`;
   print "$out\n";
 }
 
 exit;
-
-#
-#
-#
-
-sub cmd_print
-{
-  my($sh, $cmd) = @_;
-  print $sh "$cmd\n";
-  $out = `$cmd`;
-  print $sh "$out\n";
-}
-
-sub cmd_temp_print
-{
-  my($sh) = @_;
-
-  my($cmd) = "/opt/vc/bin/vcgencmd measure_temp";
-  print $sh "$cmd\n";
-  $out = `$cmd`;
-  print $sh "$out";
-
-  if($out =~ /^temp=(.*)'C/) {
-    my($f) = (($1 * 9) / 5) + 32;
-    printf $sh "temp=%.1f'F\n", $f;
-  }
-}
 

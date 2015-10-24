@@ -135,7 +135,7 @@ if($file)
   print "$out\n";
 
   #
-  # write them to the dat files on the server...
+  # write them to the graph files on the server, and rebuild graphs?
   #
 
   chomp($date);
@@ -145,6 +145,7 @@ if($file)
   $cmd .= "; echo \"$date $net\"  >> $base/graphs/net.txt";
   $cmd .= "; echo \"$date $disk\" >> $base/graphs/disk.txt";
   $cmd .= "'";
+  $cmd .= "; www/vhosts/ixnay/bin/graph3.pl $name";
 
   print "$cmd\n";
   $out = `$cmd`;

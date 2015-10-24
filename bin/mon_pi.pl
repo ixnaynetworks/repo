@@ -58,9 +58,15 @@ $cmd = "/usr/bin/sudo /usr/sbin/traceroute -T -n 54.69.208.7";
 $out = `$cmd`;
 print $sh "\n##########\n\n", "$cmd\n", $out;
 
-my $net;
-if($out =~ /54.69.208.7\s+([\d\.]+) ms\s+([\d\.]+) ms\s+([\d\.]+) ms/) {
-  $net = ($1 + $2 + $3) / 3;
+my $sum, $num, $net;
+if($out =~ /\n[\s\d].*54.69.208.7(.*)/s) {
+  foreach (split(/\s+/, $1) {
+    if(/^[\d\.]+$/) {
+      $sum += $_;
+      $num++;
+    }
+  }
+  $net = $sum / $num;
 }
 
 #

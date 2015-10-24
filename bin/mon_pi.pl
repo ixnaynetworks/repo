@@ -60,7 +60,7 @@ print $sh "\n##########\n\n", "$cmd\n", $out;
 
 my $sum, $num, $net;
 if($out =~ /\n[\s\d].*54.69.208.7(.*)/s) {
-  foreach (split(/\s+/, $1) {
+  foreach (split(/\s+/, $1)) {
     if(/^[\d\.]+$/) {
       $sum += $_;
       $num++;

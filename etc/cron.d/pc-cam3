@@ -18,3 +18,5 @@ TZ=America/Denver
 3,13,23,33,43,53 6-20 * * * pi /home/pi/bin/mon_pi.pl     status_pi.txt
 4                6-20 * * * pi /home/pi/bin/mon_router.pl status_router.txt
 
+*/5 6-23 * * * root /home/pi/bin/wifi_cmd.pl check
+  0    * * * * root /home/pi/bin/wifi_cmd.pl stop

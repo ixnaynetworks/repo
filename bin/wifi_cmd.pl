@@ -1,5 +1,7 @@
 #!/usr/bin/perl
 
+$gw = "192.168.1.1";
+
 if($ARGV[0] eq "start")
 {
   #print "starting wifi...\n";
@@ -14,7 +16,7 @@ elsif($ARGV[0] eq "stop")
 }
 elsif($ARGV[0] eq "check")
 {
-  $ping = `/bin/ping -c4 192.168.2.1`;
+  $ping = `/bin/ping -c4 $gw`;
   #print "$ping\n";
 
   if($ping =~ /100% packet loss/) {

@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 
 $ping = `/bin/ping -c4 192.168.2.1`;
-print "$ping\n";
+#print "$ping\n";
 
 if($ping =~ /100% packet loss/) {
   print "restarting wifi...\n";

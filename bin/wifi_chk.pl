@@ -8,6 +8,6 @@ if($ping =~ /100% packet loss/) {
   `/usr/bin/logger "restarting wifi..."`;
   `/sbin/ifdown --force wlan0`;
   sleep 10;
-  `/sbin/ifup wlan0`;
+  `/sbin/ifup wlan0 > /dev/null`;
 }
 

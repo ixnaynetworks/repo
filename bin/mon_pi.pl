@@ -144,6 +144,21 @@ if($file)
   # write them to the graph files on the server, and rebuild graphs?
   #
 
+  ## was there a gap?
+  ## when was the last time i did this?
+  ## could tail the local archive directory, has it been two hours or something?
+  ## stat compare the file versus the current time?
+
+  opendir(DIR, "/var/www/status_pi");
+  my @file = grep !/^\.\.?$/, readdir(DIR);
+  closedir(DIR);
+  my @sorted = sort @file;
+  my $mtime = (stat("/var/www/status_pi/" . $sorted[$#sorted - 1]))[9];
+  my $gap;
+  if((time() - $mtime) > 3600) {
+    $gap = "\n";
+  }
+
   chomp($date);
 
   $cmd = $ssh;

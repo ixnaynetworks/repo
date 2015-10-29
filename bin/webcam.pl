@@ -2,11 +2,19 @@
 
 $| = 1;
 
+#do '/home/pi/cnf/webcam.pl';
+
+my($cam, $label) = @ARGV;
+
+unless($cam) {
+  die "bad cam: $cam";
+}
+
+$remote_srvr = "uaws";
+
 #
 # take photo
 #
-
-do '/home/pi/cnf/webcam.pl';
 
 ## compute filename
 ($sec, $min, $hr, $day, $mon, $year) = localtime(time);
@@ -26,6 +34,25 @@ print "\n";
 
 ## add caption and image
 #$com = "/usr/bin/convert /home/pi/tmp/$file -resize 960x720 -fill '#0008' -draw 'rectangle 0,690,960,720' -fill '#CCCCCC' -pointsize 15 -font Courier-Bold -annotate +10+710 '$label' logo.png -gravity northwest -geometry +20+0 -composite rpi.png -gravity southeast -geometry +20+50 -composite left_bottom_label.jpg";
+
+## 960x720
+## 720-675 = 45
+
+## 1440x1080
+
+## can i do 1280x720?
+## just crop the top?
+
+## original image 2592x1944
+
+$x = 1280;
+$y =  720;
+
+$resize = "-resize " . $x . "x" . (2592 * ($x / 1944));
+$crop = "-crop " . $x . "x" . $y . "+0+" . ($resize_y - 720);
+
+$cmd = "/usr/bin/convert /home/pi/tmp/$file $resize $crop";
+
 $com = "/usr/bin/convert /home/pi/tmp/$file -resize 960x720 -fill '#0008' -draw 'rectangle 0,675,960,720' -fill '#CCCCCC' -pointsize 20 -font Courier-Bold -annotate +15+705 '$label' /home/pi/img/logo.png -gravity northwest -geometry +20+0 -composite /home/pi/img/rpi.png -gravity southeast -geometry +15+10 -composite /home/pi/img/left_bottom_label.jpg";
 print "com=$com\n";
 $out = `$com`;

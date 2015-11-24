@@ -128,7 +128,7 @@ if($upload)
   my $cmd;
 
   $cmd  = "/usr/bin/scp";
-  $cmd .= " /var/www/html/status_pi/$file";
+  $cmd .= " /var/www/html/graphs2/status_pi/$file";
   $cmd .= " uaws:$dir/status_pi/$file";
 
   print "$cmd\n";

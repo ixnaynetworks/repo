@@ -17,7 +17,7 @@ my $year += 1900;
 my $mon++;
 my $file = sprintf("%4d%02d%02d%02d%02d%02d.txt", $year, $mon, $day, $hr, $min, $sec);
 
-open(TXT, ">", "/var/www/graphs2/status_pi/$file.txt");
+open(TXT, ">", "/var/www/graphs2/status_pi/$file");
 
 #
 # run some commands
@@ -128,8 +128,8 @@ if($upload)
   my $cmd;
 
   $cmd  = "/usr/bin/scp";
-  $cmd .= " /var/www/html/graphs2/status_pi/$file.txt";
-  $cmd .= " uaws:$dir/status_pi/$file.txt";
+  $cmd .= " /var/www/html/graphs2/status_pi/$file";
+  $cmd .= " uaws:$dir/status_pi/$file";
 
   print "$cmd\n";
   $out = `$cmd`;
@@ -147,7 +147,7 @@ if($upload)
 
   $cmd  = "/usr/bin/ssh uaws";
   $cmd .= "  www/vhosts/ixnay/bin/graphs4.pl";
-  $cmd .= "; /bin/cp $dir/status_pi/$file.txt $dir/status_pi.txt";
+  $cmd .= "; /bin/cp $dir/status_pi/$file $dir/status_pi.txt";
 
   print "$cmd\n";
   $out = `$cmd`;

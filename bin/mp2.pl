@@ -17,7 +17,7 @@ $year += 1900;
 $mon++;
 my $file = sprintf("%4d%02d%02d%02d%02d%02d.txt", $year, $mon, $day, $hr, $min, $sec);
 
-open(TXT, ">", "/var/www/graphs2/status_pi/$file");
+open(TXT, ">", "/var/www/html/graphs2/status_pi/$file");
 
 #
 # run some commands

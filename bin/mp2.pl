@@ -63,7 +63,7 @@ if($out =~ /\n[\s\d].*54.69.208.7(.*)/s) {
   $net = $sum / $num;
 }
 
-&record_dat("/var/www/html/graphs2/dat/net.txt", $net);
+&record_dat("/var/www/html/graphs2/net.txt", $net);
 
 #
 # temp
@@ -80,7 +80,7 @@ if($out =~ /^temp=(.*)'C/) {
 
 print TXT "\n##########\n\n", "$cmd\n", $out;
 
-&record_dat("/var/www/html/graphs2/dat/temp.txt", $temp);
+&record_dat("/var/www/html/graphs2/temp.txt", $temp);
 
 #
 # mopicli
@@ -103,7 +103,7 @@ if($out =~ /dev\/root.* (\d\d?)\%/) {
   $disk = $1;
 }
 
-&record_dat("/var/www/html/graphs2/dat/disk.txt", $disk);
+&record_dat("/var/www/html/graphs2/disk.txt", $disk);
 
 #
 # top

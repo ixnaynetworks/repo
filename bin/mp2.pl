@@ -17,7 +17,7 @@ my $year += 1900;
 my $mon++;
 my $file = sprintf("%4d%02d%02d%02d%02d%02d.txt", $year, $mon, $day, $hr, $min, $sec);
 
-open(TXT, ">", "/var/www/graphs2/status_pi/$file");
+open(TXT, ">", "/var/www/graphs2/status_pi/$file.txt");
 
 #
 # run some commands
@@ -123,16 +123,23 @@ if($upload)
   my($name) = `/bin/hostname`;
   chomp($name);
 
-  $base = "www/vhosts/ixnay/htdocs/cams/$name";
+  my $dir = "www/vhosts/ixnay/htdocs/cams/$name";
 
   my $cmd;
 
   $cmd  = "/usr/bin/scp";
-  $cmd .= " /var/www/html/graphs2/status_pi.txt";
+  $cmd .= " /var/www/html/graphs2/status_pi/$file.txt";
+  $cmd .= " uaws:$dir/status_pi/$file.txt";
+
+  print "$cmd\n";
+  $out = `$cmd`;
+  print "$out\n";
+
+  $cmd  = "/usr/bin/scp";
   $cmd .= " /var/www/html/graphs2/net.txt";
   $cmd .= " /var/www/html/graphs2/temp.txt";
   $cmd .= " /var/www/html/graphs2/disk.txt";
-  $cmd .= " uaws:www/vhosts/ixnay/htdocs/cams/$name/graphs2";
+  $cmd .= " uaws:$dir/graphs2";
 
   print "$cmd\n";
   $out = `$cmd`;
@@ -140,7 +147,7 @@ if($upload)
 
   $cmd  = "/usr/bin/ssh uaws";
   $cmd .= "  www/vhosts/ixnay/bin/graphs4.pl";
-  $cmd .= "; /bin/cp www/vhosts/ixnay/htdocs/cams/$name/graphs2/status_pi.txt www/vhosts/ixnay/htdocs/cams/$name/graphs2/status_pi/$file.txt";
+  $cmd .= "; /bin/cp $dir/status_pi/$file.txt $dir/status_pi.txt";
 
   print "$cmd\n";
   $out = `$cmd`;

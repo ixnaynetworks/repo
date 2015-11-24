@@ -6,19 +6,18 @@ $| = 1;
 
 $upload = $ARGV[0];
 
-$time = time();
+$time = time;
 
 #
 # open output file, or STDOUT if none is specified
 #
 
 my($sec, $min, $hr, $day, $mon, $year) = localtime($time);
-my $year += 1900;
-my $mon++;
+$year += 1900;
+$mon++;
 my $file = sprintf("%4d%02d%02d%02d%02d%02d.txt", $year, $mon, $day, $hr, $min, $sec);
 
 open(TXT, ">", "/var/www/graphs2/status_pi/$file");
-print "file=$file\n";
 
 #
 # run some commands

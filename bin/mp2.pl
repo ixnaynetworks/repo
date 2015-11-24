@@ -18,6 +18,7 @@ my $mon++;
 my $file = sprintf("%4d%02d%02d%02d%02d%02d.txt", $year, $mon, $day, $hr, $min, $sec);
 
 open(TXT, ">", "/var/www/graphs2/status_pi/$file");
+print "file=$file\n";
 
 #
 # run some commands

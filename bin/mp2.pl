@@ -4,7 +4,7 @@ $| = 1;
 
 #require '/home/pi/bin/ppp.pl';
 
-$upload = ARGV[0];
+$upload = $ARGV[0];
 
 $time = time();
 

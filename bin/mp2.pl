@@ -164,7 +164,7 @@ sub record_dat
 
   ## write
   open(NET, ">>$dfile");
-  print NET $gap, "$date $net\n";
+  print NET $gap, "$date $data\n";
   close(NET);
 
   ## archive

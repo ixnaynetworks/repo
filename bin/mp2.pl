@@ -113,6 +113,7 @@ $cmd = "/usr/bin/top -b -n1 | /usr/bin/head -30";
 $out = `$cmd`;
 print TXT "\n##########\n\n", "$cmd\n", $out;
 
+
 #
 # upload
 #
@@ -134,15 +135,16 @@ if($upload)
   $cmd .= " uaws:www/vhosts/ixnay/htdocs/cams/$name/graphs2";
 
   print "$cmd\n";
-  #$out = `$cmd`;
-  #print "$out\n";
+  $out = `$cmd`;
+  print "$out\n";
 
-  $cmd  = "/usr/bin/ssh uaws ";
-  $cmd .= "www/vhosts/ixnay/bin/graphs4.pl";
+  $cmd  = "/usr/bin/ssh uaws";
+  $cmd .= "  www/vhosts/ixnay/bin/graphs4.pl";
+  $cmd .= "; /bin/cp www/vhosts/ixnay/htdocs/cams/$name/graphs2/status_pi.txt www/vhosts/ixnay/htdocs/cams/$name/graphs2/status_pi/$file.txt";
 
   print "$cmd\n";
-  #$out = `$cmd`;
-  #print "$out\n";
+  $out = `$cmd`;
+  print "$out\n";
 }
 
 exit;

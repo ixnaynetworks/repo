@@ -152,7 +152,7 @@ if($upload)
 
   $cmd  = "/usr/bin/ssh uaws";
   $cmd .= " '";
-  $cmd .= "  www/vhosts/ixnay/bin/graphs4.pl";
+  $cmd .= "  www/vhosts/ixnay/bin/graph4.pl";
   $cmd .= "; /bin/cp $dir/status_pi/$file $dir/status_pi.txt";
   $cmd .= " '";
 

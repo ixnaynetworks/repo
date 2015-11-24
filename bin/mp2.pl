@@ -113,6 +113,11 @@ $cmd = "/usr/bin/top -b -n1 | /usr/bin/head -30";
 $out = `$cmd`;
 print TXT "\n##########\n\n", "$cmd\n", $out;
 
+#
+#
+#
+
+close(TXT);
 
 #
 # upload

@@ -46,7 +46,7 @@ sub network_detected
 
   print LOG "\ndetecting network...\n";
 
-  my $cmd = "/usr/bin/lynx -source http://www.pinecreekskiresort.com/webcam/conf/network_status";
+  my $cmd = "/usr/bin/lynx -source http://www.ixnay.net/cams/network_status";
   my $out = `$cmd`;
   print LOG "\n$cmd\n$out\n";
 

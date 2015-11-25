@@ -1,7 +1,7 @@
 
 TZ=America/Denver
 
-55 5-20 * * * pi /home/pi/bin/ppp_enable.pl
+#55 5-20 * * * pi /home/pi/bin/ppp_enable.pl
 
 #55 4-20 * * * pi /usr/bin/wget http://www.pinecreekskiresort.com/webcam/conf/cam2/webcam.txt -O /home/pi/bin/webcam.pl
 #59 4-20 * * * pi /bin/chmod 755 /home/pi/bin/webcam.pl
@@ -18,7 +18,18 @@ TZ=America/Denver
 3,13,23,33,43,53 6-20 * * * pi /home/pi/bin/mon_pi.pl     status_pi.txt
 4                6-20 * * * pi /home/pi/bin/mon_router.pl status_router.txt
 
-*/5 6-23 * * * root /home/pi/bin/wifi_cmd.pl check
-  0    0 * * * root /home/pi/bin/wifi_cmd.pl stop
+#*/5 6-23 * * * root /home/pi/bin/wifi_cmd.pl check
+#  0    0 * * * root /home/pi/bin/wifi_cmd.pl stop
 
 #*/5    * * * * root /home/pi/bin/wifi_cmd.pl check
+
+## network controls
+25,35,45,55 6-17 * * * /home/pi/bin/wifi_cmd.pl check; sleep 30; /home/pi/bin/ppp_enable.pl
+5,15        7-17 * * * /home/pi/bin/wifi_cmd.pl check; sleep 30; /home/pi/bin/ppp_enable.pl
+15          18   * * * /home/pi/bin/ppp_disable.pl; sleep 30; /home/pi/bin/wifi_cmd.pl stop
+
+## webcam controls
+#30,35,40,45,50,55 6    * * * /home/pi/bin/webcam.pl "Peak Cam // 8,225 ft // Northwest View"         >> /home/pi/log/webcam 2>&1
+#*/5               7-17 * * * /home/pi/bin/webcam.pl "Peak Cam // 8,225 ft // Northwest View"         >> /home/pi/log/webcam 2>&1
+#0                 18   * * * /home/pi/bin/webcam.pl "Peak Cam // 8,225 ft // Northwest View" offline >> /home/pi/log/webcam 2>&1
+

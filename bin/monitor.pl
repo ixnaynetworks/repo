@@ -144,7 +144,7 @@ if($upload)
   $cmd .= " /var/www/html/graphs2/net.txt";
   $cmd .= " /var/www/html/graphs2/temp.txt";
   $cmd .= " /var/www/html/graphs2/disk.txt";
-  $cmd .= " uaws:$dir/graphs2";
+  $cmd .= " uaws:$dir/graphs";
 
   #print "$cmd\n";
   $out = `$cmd`;
@@ -152,7 +152,7 @@ if($upload)
 
   $cmd  = "/usr/bin/ssh uaws";
   $cmd .= " '";
-  $cmd .= "  www/vhosts/ixnay/bin/graph4.pl $name";
+  $cmd .= "  www/vhosts/ixnay/bin/graph.pl $name";
   $cmd .= "; /bin/cp $dir/status_pi/$file $dir/status_pi.txt";
   $cmd .= " '";
 

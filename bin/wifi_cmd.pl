@@ -26,8 +26,8 @@ elsif($ARGV[0] eq "check")
   }
 
   ## if that didn't work... might just need to reboot...
+  sleep 10;
   unless(&ping()) {
-    sleep 10;
     #print "rebooting...\n";
     `/usr/bin/logger -t wifi_cmd "rebooting..."`;
     sleep 10;

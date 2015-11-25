@@ -24,9 +24,9 @@ TZ=America/Denver
 #*/5    * * * * root /home/pi/bin/wifi_cmd.pl check
 
 ## network controls
-25,35,45,55 6-17 * * * /home/pi/bin/wifi_cmd.pl check; sleep 30; /home/pi/bin/ppp_enable.pl
-5,15        7-17 * * * /home/pi/bin/wifi_cmd.pl check; sleep 30; /home/pi/bin/ppp_enable.pl
-15          18   * * * /home/pi/bin/ppp_disable.pl; sleep 30; /home/pi/bin/wifi_cmd.pl stop
+25,35,45,55 6-17 * * * pi /usr/bin/sudo /home/pi/bin/wifi_cmd.pl check; sleep 30; /home/pi/bin/ppp_enable.pl
+5,15        7-17 * * * pi /usr/bin/sudo /home/pi/bin/wifi_cmd.pl check; sleep 30; /home/pi/bin/ppp_enable.pl
+15          18   * * * pi /usr/bin/sudo /home/pi/bin/ppp_disable.pl; sleep 30; /home/pi/bin/wifi_cmd.pl stop
 
 ## webcam controls
 #30,35,40,45,50,55 6    * * * /home/pi/bin/webcam.pl "Peak Cam // 8,225 ft // Northwest View"         >> /home/pi/log/webcam 2>&1

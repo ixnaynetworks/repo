@@ -136,9 +136,9 @@ if($upload)
   $cmd .= " /var/www/html/graphs2/status_pi/$file";
   $cmd .= " uaws:$dir/status_pi/$file";
 
-  print "$cmd\n";
+  #print "$cmd\n";
   $out = `$cmd`;
-  print "$out\n";
+  #print "$out\n";
 
   $cmd  = "/usr/bin/scp";
   $cmd .= " /var/www/html/graphs2/net.txt";
@@ -146,9 +146,9 @@ if($upload)
   $cmd .= " /var/www/html/graphs2/disk.txt";
   $cmd .= " uaws:$dir/graphs2";
 
-  print "$cmd\n";
+  #print "$cmd\n";
   $out = `$cmd`;
-  print "$out\n";
+  #print "$out\n";
 
   $cmd  = "/usr/bin/ssh uaws";
   $cmd .= " '";
@@ -156,9 +156,9 @@ if($upload)
   $cmd .= "; /bin/cp $dir/status_pi/$file $dir/status_pi.txt";
   $cmd .= " '";
 
-  print "$cmd\n";
+  #print "$cmd\n";
   $out = `$cmd`;
-  print "$out\n";
+  #print "$out\n";
 }
 
 exit;
@@ -174,7 +174,6 @@ sub record_dat
   ## check times for potential gap
   my $mtime = (stat($dfile))[9];
   my $gap;
-print "time-mtime=", $time-$mtime, "\n";
   if(($time - $mtime) > 3600) {
     $gap = "\n";
   }
@@ -182,7 +181,6 @@ print "time-mtime=", $time-$mtime, "\n";
   ## write
   open(NET, ">>$dfile");
   print NET $gap, "$date $data\n";
-print $gap, "$date $data\n";
   close(NET);
 
   ## archive

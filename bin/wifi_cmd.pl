@@ -1,6 +1,7 @@
 #!/usr/bin/perl
 
-$gw = "192.168.1.1";
+#$gw = "192.168.1.1";
+$gw = "192.168.2.1";
 
 if($ARGV[0] eq "start")
 {
@@ -26,6 +27,7 @@ elsif($ARGV[0] eq "check")
 
   ## if that didn't work... might just need to reboot...
   unless(&ping()) {
+    sleep 10;
     #print "rebooting...\n";
     `/usr/bin/logger -t wifi_cmd "rebooting..."`;
     sleep 10;

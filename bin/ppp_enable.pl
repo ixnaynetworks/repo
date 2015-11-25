@@ -2,7 +2,7 @@
 
 $| = 1;
 
-require '/home/pi/cnf/webcam.pl';
+#require '/home/pi/cnf/webcam.pl';
 require '/home/pi/bin/ppp.pl';
 
 open(LOG, ">/home/pi/log/ppp_enable");
@@ -28,7 +28,7 @@ else
 
 close(LOG);
 
-$cmd = "/usr/bin/scp -v /home/pi/log/ppp_enable uaws:www/vhosts/pinecreek/htdocs/webcam/conf/$cam/ppp_enable_log";
-$out = `$cmd`;
-print LOG "\n$cmd\n$out\n";
+#$cmd = "/usr/bin/scp -v /home/pi/log/ppp_enable uaws:www/vhosts/pinecreek/htdocs/webcam/conf/$cam/ppp_enable_log";
+#$out = `$cmd`;
+#print LOG "\n$cmd\n$out\n";
 

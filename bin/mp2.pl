@@ -174,6 +174,7 @@ sub record_dat
   ## check times for potential gap
   my $mtime = (stat($dfile))[9];
   my $gap;
+print "mtime=$mtime; time=$time\n";
   if(($mtime - $time) > 3600) {
     $gap = "\n";
   }

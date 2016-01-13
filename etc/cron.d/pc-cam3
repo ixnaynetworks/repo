@@ -1,22 +1,56 @@
 
 TZ=America/Denver
 
-55 5-20 * * * pi /home/pi/bin/ppp_enable.pl
+## cleanup
+ 0 20 * * * pi /usr/bin/find /home/pi/tmp -name "*.jpg" -mtime +1 -delete
+30 20 * * * pi /usr/bin/find /var/www/arc -name "*.jpg" -mtime +7 -delete
+
+## monitoring
+3,13,23,33,43,53 6-20 * * * pi /home/pi/repo/bin/monitor.pl upload
+4                6-20 * * * pi /home/pi/bin/mon_router.pl status_router.txt
+
+## network check
+*/10 6-20 * * * pi /usr/bin/sudo /home/pi/bin/wifi_cmd.pl check; sleep 30; /home/pi/bin/ppp_enable.pl
+
+## webcam
+*/5 6-17 * * * pi /home/pi/bin/webcam.pl pc-cam3 "Peak Cam // 8,225 ft // Northwest View"         >> /home/pi/log/webcam 2>&1
+0   18   * * * pi /home/pi/bin/webcam.pl pc-cam3 "Peak Cam // 8,225 ft // Northwest View" offline >> /home/pi/log/webcam 2>&1
+
+## shutdown
+55 20 * * * root /sbin/shutdown -h now
+
+#
+# old stuff
+#
+
+#25 5-20 * * * pi /home/pi/bin/ppp_enable.pl
 
 #55 4-20 * * * pi /usr/bin/wget http://www.pinecreekskiresort.com/webcam/conf/cam2/webcam.txt -O /home/pi/bin/webcam.pl
 #59 4-20 * * * pi /bin/chmod 755 /home/pi/bin/webcam.pl
 
-30,35,40,45,50,55    6 * * * pi /home/pi/bin/webcam.pl >> /home/pi/log/webcam 2>&1
-              */5 7-19 * * * pi /home/pi/bin/webcam.pl >> /home/pi/log/webcam 2>&1
-                0   20 * * * pi /home/pi/bin/webcam.pl >> /home/pi/log/webcam 2>&1
+#0      6 * * * pi /home/pi/bin/webcam.pl pc-cam3 "Peak Cam // 8,225 ft // Northwest View" >> /home/pi/log/webcam 2>&1
+#*/5 6-17 * * * pi /home/pi/bin/webcam.pl pc-cam3 "Peak Cam // 8,225 ft // Northwest View" >> /home/pi/log/webcam 2>&1
+#  0   18 * * * pi /home/pi/bin/webcam.pl pc-cam3 "Peak Cam // 8,225 ft // Northwest View" >> /home/pi/log/webcam 2>&1
 
 #30   21 * * * pi /home/pi/bin/ppp_disable.pl
 
- 0 4 * * * pi /usr/bin/find /home/pi/tmp -name "*.jpg" -mtime +1 -delete
-30 4 * * * pi /usr/bin/find /var/www/arc -name "*.jpg" -mtime +7 -delete
+# 0 4 * * * pi /usr/bin/find /home/pi/tmp -name "*.jpg" -mtime +1 -delete
+#30 4 * * * pi /usr/bin/find /var/www/arc -name "*.jpg" -mtime +7 -delete
 
-3,13,23,33,43,53 6-20 * * * pi /home/pi/bin/mon_pi.pl     status_pi.txt
-4                6-20 * * * pi /home/pi/bin/mon_router.pl status_router.txt
+#3,13,23,33,43,53 6-20      * * * pi /home/pi/repo/bin/monitor.pl upload
+#3,13,23,33,43,53 0-5,21-23 * * * pi /home/pi/repo/bin/monitor.pl
+#4                6-20      * * * pi /home/pi/bin/mon_router.pl status_router.txt
 
-*/5 6-23 * * * root /home/pi/bin/wifi_cmd.pl check
-  0    0 * * * root /home/pi/bin/wifi_cmd.pl stop
+#*/5 6-23 * * * root /home/pi/bin/wifi_cmd.pl check
+#*/5    * * * * root /home/pi/bin/wifi_cmd.pl check
+#  0    0 * * * root /home/pi/bin/wifi_cmd.pl stop
+
+## network controls
+#30,40,50 5    * * * pi /usr/bin/sudo /home/pi/bin/wifi_cmd.pl check; sleep 30; /home/pi/bin/ppp_enable.pl
+#*/10     6-17 * * * pi /usr/bin/sudo /home/pi/bin/wifi_cmd.pl check; sleep 30; /home/pi/bin/ppp_enable.pl
+#10       18   * * * pi /usr/bin/sudo /home/pi/bin/ppp_disable.pl; sleep 30; /home/pi/bin/wifi_cmd.pl stop
+
+## webcam controls
+#*/5 6-17 * * * pi /home/pi/bin/webcam.pl pc-cam3 "Peak Cam // 8,225 ft // Northwest View"         >> /home/pi/log/webcam 2>&1
+#0   18   * * * pi /home/pi/bin/webcam.pl pc-cam3 "Peak Cam // 8,225 ft // Northwest View" offline >> /home/pi/log/webcam 2>&1
+

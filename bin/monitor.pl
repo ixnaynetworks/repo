@@ -95,7 +95,7 @@ print TXT "\n##########\n\n", "$cmd\n", $out;
 
 $cmd = "/usr/sbin/mopicli -e";
 $out = `$cmd`;
-print $sh "\n##########\n\n", "$cmd\n", $out;
+print TXT "\n##########\n\n", "$cmd\n", $out;
 
 #
 # df

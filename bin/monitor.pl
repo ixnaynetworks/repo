@@ -44,6 +44,13 @@ $cmd = "/usr/bin/uptime";
 $out = `$cmd`;
 print TXT "\n##########\n\n", "$cmd\n", $out;
 
+my($volt);
+if($out =~ /Source #1 voltage: (\d+)/) {
+  $volt = $1;
+}
+
+&record_dat("/var/www/html/graphs2/volt.txt", $volt);
+
 #
 # traceroute
 #
@@ -86,9 +93,9 @@ print TXT "\n##########\n\n", "$cmd\n", $out;
 # mopicli
 #
 
-#$cmd = "/usr/sbin/mopicli -e";
-#$out = `$cmd`;
-#print $sh "\n##########\n\n", "$cmd\n", $out;
+$cmd = "/usr/sbin/mopicli -e";
+$out = `$cmd`;
+print $sh "\n##########\n\n", "$cmd\n", $out;
 
 #
 # df
@@ -144,6 +151,7 @@ if($upload)
   $cmd .= " /var/www/html/graphs2/net.txt";
   $cmd .= " /var/www/html/graphs2/temp.txt";
   $cmd .= " /var/www/html/graphs2/disk.txt";
+  $cmd .= " /var/www/html/graphs2/volt.txt";
   $cmd .= " uaws:$dir/graphs";
 
   #print "$cmd\n";

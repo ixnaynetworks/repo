@@ -1,0 +1,32 @@
+
+## my home network will set this address
+## i will have a static, say 192.168.1.221
+
+auto eth0
+allow-hotplug eth0
+iface eth0 inet dhcp
+
+## the pc-net1 file will have the .2. network here
+
+auto wlan0
+allow-hotplug wlan0
+iface wlan0 inet static
+address 192.168.2.201
+netmask 255.255.255.0
+gateway 192.168.2.1
+dns-nameservers 192.168.2.1
+wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
+
+## this address is for tethering
+## will be between 172.20.10.2 and 172.20.10.15
+
+allow-hotplug eth1
+iface eth1 inet dhcp
+
+##
+
+auto lo
+iface lo inet loopback
+
+iface default inet dhcp
+

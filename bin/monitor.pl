@@ -113,6 +113,22 @@ if($out =~ /dev\/root.* (\d\d?)\%/) {
 &record_dat("/var/www/html/graphs2/disk.txt", $disk);
 
 #
+# memory
+#
+
+$cmd = "/usr/bin/free";
+$out = `$cmd`;
+print TXT "\n##########\n\n", "$cmd\n", $out;
+
+#
+# python processes
+#
+
+$cmd = "/bin/ps -auxww | /bin/grep python";
+$out = `$cmd`;
+print TXT "\n##########\n\n", "$cmd\n", $out;
+
+#
 # top
 #
 

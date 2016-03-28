@@ -6,7 +6,7 @@ TZ=America/Denver
 30 20 * * * pi /usr/bin/find /var/www/arc -name "*.jpg" -mtime +7 -delete
 
 ## monitoring
-3,13,23,33,43,53 6-20 * * * pi /home/pi/repo/bin/monitor.pl upload
+3,13,23,33,43,53 6-20 * * * pi /home/pi/bin/monitor.pl upload
 #4                6-20 * * * pi /home/pi/bin/mon_router.pl status_router.txt
 
 ## network check

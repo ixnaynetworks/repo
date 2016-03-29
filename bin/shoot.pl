@@ -15,7 +15,7 @@ print "\n";
 # take the pic and save it to an archive somewhere
 #
 
-my $cmd = "/usr/bin/raspistill -v -w 960 -h 720 -n -q 95 -ex snow -o /home/pi/tmp/$file";
+my $cmd = "/usr/bin/raspistill -v -w 960 -h 720 -n -q 95 --saturation 25 --sharpness 15 -o /home/pi/tmp/$file";
 print "cmd=$cmd\n";
 my $out = `$cmd`;
 print "$out\n";

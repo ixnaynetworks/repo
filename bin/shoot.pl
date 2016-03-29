@@ -26,6 +26,7 @@ print "\n";
 #
 
 my $cam = `/bin/hostname`;
+chomp($cam);
 my $cmd = "/usr/bin/scp -v /home/pi/tmp/$file uaws:www/vhosts/ixnay/htdocs/cams/$cam/raw";
 print "cmd=$cmd\n";
 my $out = `$cmd`;

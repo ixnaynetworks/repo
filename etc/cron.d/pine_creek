@@ -1,0 +1,22 @@
+
+TZ=America/Denver
+
+*/5 * * * * root /usr/bin/free >> /var/log/freemem.log
+
+## monitoring
+3,13,23,33,43,53 6-15 * * * pi /home/pi/bin/monitor.pl upload
+4                6-15 * * * pi /home/pi/bin/mon_router.pl status_router.txt
+
+## network check
+*/10 6-15 * * * pi /usr/bin/sudo /home/pi/bin/wifi_cmd.pl check; sleep 30; /home/pi/bin/ppp_enable.pl
+
+## webcam
+*/5 7-15 * * * pi /home/pi/bin/shoot.pl >> /home/pi/log/webcam 2>&1
+
+## last hour
+3,13,23      16 * * * pi   /home/pi/bin/monitor.pl upload
+0,5,10,15,20 16 * * * pi   /home/pi/bin/shoot.pl >> /home/pi/log/webcam 2>&1
+22           16 * * * pi   /usr/bin/find /home/pi/tmp -name "*.jpg" -mtime +1 -delete
+23           16 * * * pi   /usr/bin/find /var/www/arc -name "*.jpg" -mtime +7 -delete
+25           16 * * * root /sbin/shutdown -h now
+

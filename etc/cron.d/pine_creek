@@ -8,10 +8,11 @@ TZ=America/Denver
 4                6-15 * * * pi /home/pi/bin/mon_router.pl status_router.txt
 
 ## network check
-*/10 6-15 * * * pi /usr/bin/sudo /home/pi/bin/wifi_cmd.pl check; sleep 30; /home/pi/bin/ppp_enable.pl
+*/10 * * * * pi /usr/bin/sudo /home/pi/bin/wifi_cmd.pl check; sleep 30; /home/pi/bin/ppp_enable.pl
 
 ## webcam
-*/5 7-15 * * * pi /home/pi/bin/shoot.pl >> /home/pi/log/webcam 2>&1
+30,35,40,45,50,55 6    * * * pi /home/pi/bin/shoot.pl >> /home/pi/log/webcam 2>&1
+*/5               7-15 * * * pi /home/pi/bin/shoot.pl >> /home/pi/log/webcam 2>&1
 
 ## last hour
 3,13,23      16 * * * pi   /home/pi/bin/monitor.pl upload

@@ -124,7 +124,7 @@ print TXT "\n##########\n\n", "$cmd\n", $out;
 # python processes
 #
 
-$cmd = "/bin/ps -auxww | /bin/grep python";
+$cmd = "/bin/ps auxww | /bin/grep python";
 $out = `$cmd`;
 print TXT "\n##########\n\n", "$cmd\n", $out;
 

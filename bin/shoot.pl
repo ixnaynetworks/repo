@@ -1,6 +1,21 @@
 #!/usr/bin/perl
 
 #
+# am i already running?
+#
+
+my $cmd = "/bin/ps auxww | /bin/grep -v grep | /bin/grep shoot";
+print "cmd=$cmd\n";
+my $out = `$cmd`;
+print "$out\n";
+print "\n";
+
+my @proc = split(/\n/, $out);
+if($#proc > 0) {
+  die "another shoot.pl is already running!";
+}
+
+#
 # compute filename
 #
 

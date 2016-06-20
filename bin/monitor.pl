@@ -48,9 +48,12 @@ print TXT "\n##########\n\n", "$cmd\n", $out;
 # wifi signal
 #
 
+my($wifi);
 $cmd = "/sbin/iwconfig wlan0";
 $out = `$cmd`;
 print TXT "\n##########\n\n", "$cmd\n", $out;
+
+&record_dat("/var/www/html/graphs2/wifi.txt", $wifi);
 
 #
 # traceroute
@@ -173,6 +176,7 @@ if($upload)
 
   $cmd  = "/usr/bin/scp";
   $cmd .= " /var/www/html/graphs2/net.txt";
+  $cmd .= " /var/www/html/graphs2/wifi.txt";
   $cmd .= " /var/www/html/graphs2/temp.txt";
   $cmd .= " /var/www/html/graphs2/disk.txt";
   $cmd .= " /var/www/html/graphs2/volt.txt";

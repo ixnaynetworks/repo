@@ -45,6 +45,14 @@ $out = `$cmd`;
 print TXT "\n##########\n\n", "$cmd\n", $out;
 
 #
+# wifi signal
+#
+
+$cmd = "/sbin/iwconfig wlan0";
+$out = `$cmd`;
+print TXT "\n##########\n\n", "$cmd\n", $out;
+
+#
 # traceroute
 #
 

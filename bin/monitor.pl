@@ -48,10 +48,14 @@ print TXT "\n##########\n\n", "$cmd\n", $out;
 # wifi signal
 #
 
-my($wifi);
 $cmd = "/sbin/iwconfig wlan0";
 $out = `$cmd`;
 print TXT "\n##########\n\n", "$cmd\n", $out;
+
+my($wifi);
+if($out =~ /Signal level=(\d\d?\d?)\/100/) {
+  $wifi = $1;
+}
 
 &record_dat("/var/www/html/graphs2/wifi.txt", $wifi);
 

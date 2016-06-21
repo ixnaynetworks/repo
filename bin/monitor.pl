@@ -52,9 +52,17 @@ $cmd = "/sbin/iwconfig wlan0";
 $out = `$cmd`;
 print TXT "\n##########\n\n", "$cmd\n", $out;
 
-my($wifi);
+my $wifi = 0;
 if($out =~ /Signal level=(\d\d?\d?)\/100/) {
   $wifi = $1;
+}
+elsif($out =~ /Signal level=(\-\d\d\d?) dBm/) {
+  if($1 > -50) {
+    $wifi = 100;
+  }
+  elsif($1 > -100) {
+    $wifi = (2 * $1) + 100;
+  }
 }
 
 &record_dat("/var/www/html/graphs2/wifi.txt", $wifi);

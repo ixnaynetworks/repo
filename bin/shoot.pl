@@ -1,5 +1,7 @@
 #!/usr/bin/perl
 
+my $args = $ARGV[0];
+
 #
 # am i already running?
 #
@@ -31,7 +33,7 @@ print "\n";
 #
 
 #my $cmd = "/usr/bin/raspistill -v -w 960 -h 720 -n -q 95 --saturation 25 --sharpness 15 -o /home/pi/tmp/$file";
-my $cmd = "/usr/bin/raspistill -v " . $ARGV[0] . " -o /home/pi/tmp/$file";
+my $cmd = "/usr/bin/raspistill -v -n $args -o /home/pi/tmp/$file";
 print "cmd=$cmd\n";
 my $out = `$cmd`;
 print "$out\n";
@@ -53,7 +55,10 @@ print "\n";
 # call the stamp.pl on ixnay to do the rest
 #
 
-my $cmd = "/usr/bin/ssh -v uaws www/vhosts/ixnay/bin/stamp.pl $cam/raw/$file";
+$args =~ /\-w (\d+) \-h (\d+)/;
+my $w = $1;
+my $h = $2;
+my $cmd = "/usr/bin/ssh -v uaws www/vhosts/ixnay/bin/stamp.pl $cam/raw/$file $w $h";
 print "cmd=$cmd\n";
 my $out = `$cmd`;
 print "out=$out\n";

@@ -4,7 +4,7 @@
 # am i already running?
 #
 
-my $cmd = "/bin/ps auxww | /bin/grep -v grep | /bin/grep shoot";
+my $cmd = "/bin/ps auxww | /bin/grep -v grep | /bin/grep perl | /bin/grep shoot";
 print "cmd=$cmd\n";
 my $out = `$cmd`;
 print "$out\n";
@@ -30,7 +30,8 @@ print "\n";
 # take the pic and save it to an archive somewhere
 #
 
-my $cmd = "/usr/bin/raspistill -v -w 960 -h 720 -n -q 95 --saturation 25 --sharpness 15 -o /home/pi/tmp/$file";
+#my $cmd = "/usr/bin/raspistill -v -w 960 -h 720 -n -q 95 --saturation 25 --sharpness 15 -o /home/pi/tmp/$file";
+my $cmd = "/usr/bin/raspistill -v " . $ARGV[0] . " -o /home/pi/tmp/$file";
 print "cmd=$cmd\n";
 my $out = `$cmd`;
 print "$out\n";

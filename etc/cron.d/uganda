@@ -1,0 +1,3 @@
+
+*/10 * * * * pi /home/pi/bin/shoot.pl "-w 1870 -h 940 -n -q 95 --saturation 15 --sharpness 15 --rotation 270"
+

@@ -1,3 +1,14 @@
 
-*/10 * * * * pi /home/pi/bin/shoot.pl "-w 1870 -h 940 -n -q 95 --saturation 15 --sharpness 15 --rotation 270"
+TZ=America/Denver
+
+## cleanup
+ 0 20 * * * pi /usr/bin/find /home/pi/tmp -name "*.jpg" -mtime +1 -delete
+30 20 * * * pi /usr/bin/find /var/www/arc -name "*.jpg" -mtime +7 -delete
+
+## monitoring
+3,13,23,33,43,53 * * * * pi /home/pi/bin/monitor.pl upload
+
+## webcam
+#*/10 * * * * pi /home/pi/bin/shoot.pl "-w 960 -h 720 -n -q 95 --saturation 15 --sharpness 15 --rotation 270"
+*/10 * * * * pi /home/pi/bin/shoot.pl "-w 1250 -h 940 -n -q 95 --saturation 15 --sharpness 15 --rotation 270"
 

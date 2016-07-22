@@ -8,7 +8,10 @@ TZ=America/Denver
 ## monitoring
 3,13,23,33,43,53 * * * * pi /home/pi/bin/monitor.pl upload
 
+## network check
+9,19,29,39,49,59 * * * * root /sbin/ifup wlan0
+
 ## webcam
-#*/10 * * * * pi /home/pi/bin/shoot.pl "-w 960 -h 720 -n -q 95 --saturation 15 --sharpness 15 --rotation 270"
-*/10 * * * * pi /home/pi/bin/shoot.pl "-w 1250 -h 940 -n -q 95 --saturation 15 --sharpness 15 --rotation 270"
+#*/10 * * * * pi /home/pi/bin/shoot.pl "-w 960 -h 720 -n -q 95 --saturation 15 --sharpness 15 --rotation 270" >> /home/pi/log/webcam 2>&1
+*/10 * * * * pi /home/pi/bin/shoot.pl "-w 1250 -h 940 -n -q 95 --saturation 15 --sharpness 15 --rotation 270" >> /home/pi/log/webcam 2>&1
 

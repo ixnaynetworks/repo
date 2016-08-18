@@ -222,7 +222,7 @@ sub record_dat
 {
   my($dfile, $data) = @_;
  
-  my $dir = "/var/www/html/graphs2";
+  my $dir = "/var/www/html/graphs";
 
   ## check times for potential gap
   my $mtime = (stat("$dir/$dfile"))[9];

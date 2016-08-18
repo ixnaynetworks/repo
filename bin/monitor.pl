@@ -222,22 +222,26 @@ sub record_dat
 {
   my($dfile, $data) = @_;
  
+  my $dir = "/var/www/html/graphs2";
+
   ## check times for potential gap
-  my $mtime = (stat($dfile))[9];
+  my $mtime = (stat("$dir/$dfile"))[9];
   my $gap;
   if(($time - $mtime) > 3600) {
     $gap = "\n";
   }
 
   ## write local
-  open(NET, ">>/var/www/html/graphs2/$dfile");
+  open(NET, ">>$dir/$dfile");
   print NET $gap, "$date $data\n";
   close(NET);
 
-  if($upload) {
+  if($upload)
+  {
     ## do a remote write here?
+    $dir = "www/vhosts/ixnay/htdocs/cams/$name/graphs";
     $gap = "\\n" if($gap);
-    my $cmd = "/usr/bin/ssh uaws '/usr/bin/printf \"$gap$date $data\\n\" >> www/vhosts/ixnay/htdocs/cams/$name/graphs/$dfile'";
+    my $cmd = "/usr/bin/ssh uaws '/usr/bin/printf \"$gap$date $data\\n\" >> $dir/$dfile'";
     print "cmd=$cmd\n";
     `$cmd`;
   }

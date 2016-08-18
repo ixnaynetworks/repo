@@ -65,7 +65,7 @@ elsif($out =~ /Signal level=(\-\d\d\d?) dBm/) {
   }
 }
 
-&record_dat("/var/www/html/graphs2/wifi.txt", $wifi);
+&record_dat("wifi.txt", $wifi);
 
 #
 # traceroute
@@ -86,7 +86,7 @@ if($out =~ /\n[\s\d].*54.69.208.7(.*)/s) {
   $net = $sum / $num;
 }
 
-&record_dat("/var/www/html/graphs2/net.txt", $net);
+&record_dat("net.txt", $net);
 
 #
 # temp
@@ -103,7 +103,7 @@ if($out =~ /^temp=(.*)'C/) {
 
 print TXT "\n##########\n\n", "$cmd\n", $out;
 
-&record_dat("/var/www/html/graphs2/temp.txt", $temp);
+&record_dat("temp.txt", $temp);
 
 #
 # mopicli
@@ -133,7 +133,7 @@ if($out =~ /dev\/root.* (\d\d?)\%/) {
   $disk = $1;
 }
 
-&record_dat("/var/www/html/graphs2/disk.txt", $disk);
+&record_dat("disk.txt", $disk);
 
 #
 # memory
@@ -186,16 +186,16 @@ if($upload)
   $out = `$cmd`;
   #print "$out\n";
 
-  $cmd  = "/usr/bin/scp";
-  $cmd .= " /var/www/html/graphs2/net.txt";
-  $cmd .= " /var/www/html/graphs2/wifi.txt";
-  $cmd .= " /var/www/html/graphs2/temp.txt";
-  $cmd .= " /var/www/html/graphs2/disk.txt";
-  $cmd .= " /var/www/html/graphs2/volt.txt";
-  $cmd .= " uaws:$dir/graphs";
+  #$cmd  = "/usr/bin/scp";
+  #$cmd .= " /var/www/html/graphs2/net.txt";
+  #$cmd .= " /var/www/html/graphs2/wifi.txt";
+  #$cmd .= " /var/www/html/graphs2/temp.txt";
+  #$cmd .= " /var/www/html/graphs2/disk.txt";
+  #$cmd .= " /var/www/html/graphs2/volt.txt";
+  #$cmd .= " uaws:$dir/graphs";
 
   #print "$cmd\n";
-  $out = `$cmd`;
+  #$out = `$cmd`;
   #print "$out\n";
 
   $cmd  = "/usr/bin/ssh uaws";
@@ -226,14 +226,21 @@ sub record_dat
     $gap = "\n";
   }
 
-  ## write
-  open(NET, ">>$dfile");
+  ## write local
+  open(NET, ">>/var/www/html/graphs2/$dfile");
   print NET $gap, "$date $data\n";
   close(NET);
 
+  if($upload) {
+    ## do a remote write here?
+    my $cmd = "/usr/bin/ssh uaws /usr/bin/printf \"$gap$date $data\n\" >> www/vhosts/ixnay/htdocs/cams/$name/graphs/$dfile";
+    print "cmd=$cmd\n";
+    `$cmd`;
+  }
+
   ## archive
-  $dfile =~ /(.*)\.txt/;
-  my $dir = $1;
-  `/bin/cp $dfile $dir/$file`;
+  #$dfile =~ /(.*)\.txt/;
+  #my $dir = $1;
+  #`/bin/cp $dfile $dir/$file`;
 }
 

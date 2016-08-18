@@ -6,7 +6,10 @@ $| = 1;
 
 $upload = $ARGV[0];
 
-$time = time;
+my($name) = `/bin/hostname`;
+chomp($name);
+
+my $time = time;
 
 #
 # open output file, or STDOUT if none is specified
@@ -233,7 +236,8 @@ sub record_dat
 
   if($upload) {
     ## do a remote write here?
-    my $cmd = "/usr/bin/ssh uaws /usr/bin/printf \"$gap$date $data\n\" >> www/vhosts/ixnay/htdocs/cams/$name/graphs/$dfile";
+    $gap = "\\n" if($gap);
+    my $cmd = "/usr/bin/ssh uaws '/usr/bin/printf \"$gap$date $data\\n\" >> www/vhosts/ixnay/htdocs/cams/$name/graphs/$dfile'";
     print "cmd=$cmd\n";
     `$cmd`;
   }

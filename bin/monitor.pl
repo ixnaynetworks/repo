@@ -242,7 +242,7 @@ sub record_dat
     $dir = "www/vhosts/ixnay/htdocs/cams/$name/graphs";
     $gap = "\\n" if($gap);
     my $cmd = "/usr/bin/ssh uaws '/usr/bin/printf \"$gap$date $data\\n\" >> $dir/$dfile'";
-    print "cmd=$cmd\n";
+    #print "cmd=$cmd\n";
     `$cmd`;
   }
 

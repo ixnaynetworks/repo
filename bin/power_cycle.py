@@ -3,7 +3,7 @@ import sys
 import RPi.GPIO as GPIO
 import time
 
-pin = sys.argv[0]
+pin = int(sys.argv[1])
 GPIO.setmode(GPIO.BCM)
 
 GPIO.setup(pin, GPIO.OUT) 

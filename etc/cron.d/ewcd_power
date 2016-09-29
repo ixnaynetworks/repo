@@ -1,0 +1,6 @@
+
+TZ=America/Denver
+
+## self-healing
+58 * * * * root /sbin/ifup wlan0
+

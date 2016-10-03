@@ -20,7 +20,7 @@ $year += 1900;
 $mon++;
 my $file = sprintf("%4d%02d%02d%02d%02d%02d.txt", $year, $mon, $day, $hr, $min, $sec);
 
-open(TXT, ">", "/var/www/html/graphs2/status_pi/$file");
+open(TXT, ">", "/home/pi/status_pi/$file");
 
 #
 # run some commands
@@ -182,7 +182,7 @@ if($upload)
   my $cmd;
 
   $cmd  = "/usr/bin/scp";
-  $cmd .= " /var/www/html/graphs2/status_pi/$file";
+  $cmd .= " /home/pi/status_pi/$file";
   $cmd .= " uaws:$dir/status_pi/$file";
 
   #print "$cmd\n";
@@ -222,7 +222,7 @@ sub record_dat
 {
   my($dfile, $data) = @_;
  
-  my $dir = "/var/www/html/graphs";
+  my $dir = "/home/pi/graphs";
 
   ## check times for potential gap
   my $mtime = (stat("$dir/$dfile"))[9];

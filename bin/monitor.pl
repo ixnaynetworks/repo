@@ -51,24 +51,25 @@ print TXT "\n##########\n\n", "$cmd\n", $out;
 # wifi signal
 #
 
-$cmd = "/sbin/iwconfig wlan0";
+$cmd = "/sbin/iwconfig wlan0 2>&1";
 $out = `$cmd`;
 print TXT "\n##########\n\n", "$cmd\n", $out;
 
-my $wifi = 0;
-if($out =~ /Signal level=(\d\d?\d?)\/100/) {
-  $wifi = $1;
-}
-elsif($out =~ /Signal level=(\-\d\d\d?) dBm/) {
-  if($1 > -50) {
-    $wifi = 100;
+if($out !~ /No such device/) {
+  my $wifi = 0;
+  if($out =~ /Signal level=(\d\d?\d?)\/100/) {
+    $wifi = $1;
   }
-  elsif($1 > -100) {
-    $wifi = (2 * $1) + 100;
+  elsif($out =~ /Signal level=(\-\d\d\d?) dBm/) {
+    if($1 > -50) {
+      $wifi = 100;
+    }
+    elsif($1 > -100) {
+      $wifi = (2 * $1) + 100;
+    }
   }
+  &record_dat("wifi.txt", $wifi);
 }
-
-&record_dat("wifi.txt", $wifi);
 
 #
 # traceroute
@@ -112,16 +113,16 @@ print TXT "\n##########\n\n", "$cmd\n", $out;
 # mopicli
 #
 
-#$cmd = "/usr/sbin/mopicli -e";
-#$out = `$cmd`;
-#print TXT "\n##########\n\n", "$cmd\n", $out;
+$cmd = "/usr/sbin/mopicli -e";
+$out = `$cmd`;
+print TXT "\n##########\n\n", "$cmd\n", $out;
 
-#my($volt);
-#if($out =~ /Source #1 voltage: (\d+)/) {
-#  $volt = $1;
-#}
+my($volt);
+if($out =~ /Source #1 voltage: (\d+)/) {
+  $volt = $1;
+}
 
-#&record_dat("/var/www/html/graphs2/volt.txt", $volt);
+&record_dat("volt.txt", $volt);
 
 #
 # df

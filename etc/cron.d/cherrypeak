@@ -1,0 +1,16 @@
+
+TZ=America/Denver
+
+## cleanup
+ 0 20 * * * pi /usr/bin/find /home/pi/tmp -name "*.jpg" -mtime +1 -delete
+30 20 * * * pi /usr/bin/find /home/pi/arc -name "*.jpg" -mtime +7 -delete
+
+## monitoring
+3,13,23,33,43,53 * * * * pi /home/pi/bin/monitor.pl upload
+
+## network check
+9,19,29,39,49,59 * * * * root /sbin/ifup wlan1
+
+## webcam
+*/10 * * * * pi /home/pi/bin/shoot.pl "-w 1870 -h 940 -n -q 95 --saturation 15 --sharpness 15" >> /home/pi/log/webcam 2>&1
+

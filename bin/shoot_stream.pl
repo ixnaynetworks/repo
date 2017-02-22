@@ -1,5 +1,8 @@
 #!/usr/bin/perl
 
+use DateTime;
+use DateTime::Event::Sunrise;
+
 my $args = $ARGV[0];
 my $key = $ARGV[1];
 
@@ -12,6 +15,23 @@ if($pid) {
   chomp($pid);
   die "another shoot.pl ($pid) is already running!";
 }
+
+#
+# day or night?
+#
+
+my $sun = DateTime::Event::Sunrise->new(longitude => -111.75547, latitude => +41.92683);
+my $dt = DateTime->now(time_zone => 'America/Denver');
+
+my $daytime = 0;
+if(($dt->epoch > $sun->sunrise_datetime($dt)->epoch) and ($dt->epoch < $sun->sunset_datetime($dt)->epoch)) {
+  print "daytime: yes\n";
+  $daytime = 1;
+}
+else {
+  print "daytime: no\n";
+}
+#$daytime = 1;
 
 #
 # compute filename
@@ -41,6 +61,9 @@ if($pid) {
 # take the pic and save it to an archive somewhere
 #
 
+unless($daytime) {
+  $args .= " --exposure night";
+}
 #my $cmd = "/usr/bin/raspistill -v -w 960 -h 720 -n -q 95 --saturation 25 --sharpness 15 -o /home/pi/tmp/$file";
 my $cmd = "/usr/bin/raspistill -v -n $args -o /home/pi/tmp/$file";
 print "cmd=$cmd\n";
@@ -59,7 +82,8 @@ while($try <= 3) {
   $try++;
   sleep 1;
 
-  my $cmd = "/usr/bin/raspivid -o - -t 0 -vf -hf -fps 30 -b 25000000 -rot 90 -w 1280 -h 720 | /usr/local/bin/ffmpeg -loglevel panic -re -ar 44100 -ac 2 -acodec pcm_s16le -f s16le -ac 2 -i /dev/zero -f h264 -i - -vcodec copy -acodec aac -ab 128k -g 50 -strict experimental -f flv rtmp://a.rtmp.youtube.com/live2/$key";
+  #my $cmd = "/usr/bin/raspivid -o - -t 0 -vf -hf -b 25000000 -rot 90 -w 1280 -h 720 --exposure night -fps 30 | /usr/local/bin/ffmpeg -loglevel panic -re -ar 44100 -ac 2 -acodec pcm_s16le -f s16le -ac 2 -i /dev/zero -f h264 -i - -vcodec copy -acodec aac -ab 128k -g 50 -strict experimental -f flv rtmp://a.rtmp.youtube.com/live2/$key";
+  my $cmd = "/usr/bin/raspivid -o - -t 0 -vf -hf -b 25000000 -rot 270 -w 1280 -h 720 --framerate 30 --exposure night | /usr/local/bin/ffmpeg -loglevel panic -re -ar 44100 -ac 2 -acodec pcm_s16le -f s16le -ac 2 -i /dev/zero -f h264 -i - -i /home/pi/logo_night.png -vcodec copy -acodec aac -ab 128k -g 50 -strict experimental -f flv rtmp://a.rtmp.youtube.com/live2/$key";
   system("$cmd &");
 
   my $pid = `/usr/bin/pgrep raspivid`;
@@ -96,7 +120,13 @@ print "\n";
 $args =~ /\-w (\d+) \-h (\d+)/;
 my $w = $1;
 my $h = $2;
-my $cmd = "/usr/bin/ssh uaws2 www/vhosts/ixnay/bin/stamp_config.pl $cam/raw/$file $w $h";
+if($daytime) {
+  $logo = "logo_day.png";
+}
+else {
+  $logo = "logo_night.png";
+}
+my $cmd = "/usr/bin/ssh uaws2 www/vhosts/ixnay/bin/stamp_config.pl $cam/raw/$file $w $h $logo";
 print "cmd=$cmd\n";
 my $out = `$cmd`;
 print "out=$out\n";

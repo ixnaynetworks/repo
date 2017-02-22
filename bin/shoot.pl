@@ -1,5 +1,8 @@
 #!/usr/bin/perl
 
+use DateTime;
+use DateTime::Event::Sunrise;
+
 my $args = $ARGV[0];
 
 #
@@ -18,6 +21,22 @@ if($#proc > 0) {
 }
 
 #
+# day or night?
+#
+
+my $sun = DateTime::Event::Sunrise->new(longitude => -111.75547, latitude => +41.92683);
+my $dt = DateTime->now(time_zone => 'America/Denver');
+
+my $daytime = 0;
+if(($dt->epoch > $sun->sunrise_datetime($dt)->epoch) and ($dt->epoch < $sun->sunset_datetime($dt)->epoch)) {
+  print "daytime: yes\n";
+  $daytime = 1;
+}
+else {
+  print "daytime: no\n";
+}
+
+#
 # compute filename
 #
 
@@ -32,6 +51,9 @@ print "\n";
 # take the pic and save it to an archive somewhere
 #
 
+unless($daytime) {
+  $args .= " --exposure night";
+}
 #my $cmd = "/usr/bin/raspistill -v -w 960 -h 720 -n -q 95 --saturation 25 --sharpness 15 -o /home/pi/tmp/$file";
 my $cmd = "/usr/bin/raspistill -v -n $args -o /home/pi/tmp/$file";
 print "cmd=$cmd\n";
@@ -45,7 +67,7 @@ print "\n";
 
 my $cam = `/bin/hostname`;
 chomp($cam);
-my $cmd = "/usr/bin/scp -v /home/pi/tmp/$file uaws:www/vhosts/ixnay/htdocs/cams/$cam/raw";
+my $cmd = "/usr/bin/scp /home/pi/tmp/$file uaws:www/vhosts/ixnay/htdocs/cams/$cam/raw";
 print "cmd=$cmd\n";
 my $out = `$cmd`;
 print "out=$out\n";
@@ -58,7 +80,13 @@ print "\n";
 $args =~ /\-w (\d+) \-h (\d+)/;
 my $w = $1;
 my $h = $2;
-my $cmd = "/usr/bin/ssh -v uaws www/vhosts/ixnay/bin/stamp.pl $cam/raw/$file $w $h";
+if($daytime) {
+  $logo = "logo_day.png";
+}
+else {
+  $logo = "logo_night.png";
+}
+my $cmd = "/usr/bin/ssh uaws www/vhosts/ixnay/bin/stamp_config.pl $cam/raw/$file $w $h $logo";
 print "cmd=$cmd\n";
 my $out = `$cmd`;
 print "out=$out\n";

@@ -11,7 +11,7 @@ TZ=America/Denver
 */10 * * * * pi /usr/bin/sudo /home/pi/bin/wifi_cmd.pl check; sleep 30; /home/pi/bin/ppp_enable.pl
 
 ## webcam
-*/10 5-21 * * * pi /home/pi/bin/shoot.pl "-w 1870 -h 940 -n -q 95 --saturation 15 --sharpness 15" >> /home/pi/log/webcam 2>&1
+*/10 5-21 * * * pi /home/pi/bin/shoot.pl "-w 1870 -h 940 -q 95 --saturation 15 --sharpness 15" >> /home/pi/log/webcam 2>&1
 
 ## cleanup
 22 16 * * * pi   /usr/bin/find /home/pi/tmp -name "*.jpg" -mtime +1 -delete

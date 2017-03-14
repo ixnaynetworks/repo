@@ -1,7 +1,7 @@
 
 TZ=America/Denver
 
-50 5-20 * * * pi /home/pi/bin/ppp_enable.pl
+55 5-20 * * * pi /home/pi/bin/ppp_enable.pl
 
 #55 4-20 * * * pi /usr/bin/wget http://www.pinecreekskiresort.com/webcam/conf/cam2/webcam.txt -O /home/pi/bin/webcam.pl
 #59 4-20 * * * pi /bin/chmod 755 /home/pi/bin/webcam.pl

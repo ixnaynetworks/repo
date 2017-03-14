@@ -1,0 +1,9 @@
+
+ 0  7 * * * pi /home/pi/bin/16_heater_off.py
+#0 11 * * * pi /home/pi/bin/16_heater_off.py
+#0 16 * * * pi /home/pi/bin/16_heater_off.py
+
+50 17 * * * root /sbin/shutdown -h now
+
+1,11,21,31,41,51 * * * * pi /home/pi/bin/graph3.pl
+

@@ -1,0 +1,33 @@
+
+TZ=America/Denver
+
+## cleanup
+ 5 20 * * * pi /usr/bin/find /home/pi/tmp -name "*.jpg" -mtime +1 -delete
+35 20 * * * pi /usr/bin/find /home/pi/arc -name "*.jpg" -mtime +7 -delete
+
+## monitoring
+3,13,23,33,43,53 * * * * pi /home/pi/bin/monitor.pl upload
+1,11,21,31,41,51 * * * * pi /home/pi/bin/graph3.pl
+
+## network check
+#9,19,29,39,49,59 * * * * root /sbin/ifup wlan1
+
+## network fix
+ 1,21,41 * * * * root /home/pi/bin/fixnet.pl reboot >> /home/pi/log/network
+11,31,51 * * * * root /home/pi/bin/fixnet.pl        >> /home/pi/log/network
+
+## webcam
+#*    9-20      * * * pi /home/pi/bin/shoot.pl "-w 1280 -h 720 -n -q 95 --rotation 270 --saturation 15 --sharpness 15" >> /home/pi/log/webcam 2>&1
+#*/10 0-8,21-23 * * * pi /home/pi/bin/shoot.pl "-w 1280 -h 720 -n -q 95 --rotation 270 --saturation 15 --sharpness 15" >> /home/pi/log/webcam 2>&1
+
+#*/10 * * * * pi /home/pi/bin/shoot_stream.pl "-w 1280 -h 720 -n -q 95 --rotation 270 --saturation 15 --sharpness 15" kxfq-6cb5-b6r9-9bzu >> /home/pi/log/webcam 2>&1
+#*/10 0-6,18-23 * * * pi /home/pi/bin/shoot_stream.pl "-w 1280 -h 720 -q 95 --rotation 270 --saturation 15 --sharpness 15 --exposure night" kxfq-6cb5-b6r9-9bzu >> /home/pi/log/webcam 2>&1
+#*/10 7-17      * * * pi /home/pi/bin/shoot_stream.pl "-w 1280 -h 720 -q 95 --rotation 270 --saturation 15 --sharpness 15"                  kxfq-6cb5-b6r9-9bzu >> /home/pi/log/webcam 2>&1
+
+#*/10  0-6  * * * pi /home/pi/bin/shoot_stream.pl "-w 1280 -h 720 -q 95 --rotation 270 --saturation 15 --sharpness 15 --exposure night" ghuz-w799-4eck-c7q7 >> /home/pi/log/webcam 2>&1
+#*/10  7-17 * * * pi /home/pi/bin/shoot_stream.pl "-w 1280 -h 720 -q 95 --rotation 270 --saturation 15 --sharpness 15"                  ghuz-w799-4eck-c7q7 >> /home/pi/log/webcam 2>&1
+#*/10 18-23 * * * pi /home/pi/bin/shoot_stream.pl "-w 1280 -h 720 -q 95 --rotation 270 --saturation 15 --sharpness 15 --exposure night" ghuz-w799-4eck-c7q7 >> /home/pi/log/webcam 2>&1
+
+## webcam
+*/10 * * * * pi /home/pi/bin/shoot_stream.pl "-w 1280 -h 720 -q 95 --rotation 270 --saturation 15 --sharpness 15" ghuz-w799-4eck-c7q7 >> /home/pi/log/webcam 2>&1
+

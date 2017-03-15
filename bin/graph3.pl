@@ -36,6 +36,17 @@ exit;
 #
 #
 
+sub iwconfig
+{
+  print "\n";
+  my $dir = "$base/iwconfig";
+  `/bin/mkdir $dir` unless(-e $dir);
+  my $iwconfig = "/sbin/iwconfig >> $dir/$file";
+  print "$iwconfig\n";
+  my $out = `$iwconfig`;
+  print "$out\n";
+}
+
 sub traceroute
 {
   print "\n";

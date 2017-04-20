@@ -20,7 +20,7 @@ print "\n";
 my $hostname = `/bin/hostname`;
 chomp($hostname);
 
-my $rsync = "/usr/bin/rsync -avz --delete /home/pi/graphs3/ uaws2:www/vhosts/ixnay/htdocs/cams/$hostname/graphs3/uploads";
+my $rsync = "/usr/bin/rsync -avz /home/pi/graphs3/ uaws2:www/vhosts/ixnay/htdocs/cams/$hostname/graphs3/uploads";
 print "$rsync\n";
 my $out = `$rsync`;
 print "$out\n";
@@ -28,6 +28,16 @@ print "$out\n";
 my $graph3 = "/usr/bin/ssh uaws2 /home/michael/www/vhosts/ixnay/bin/graph3.pl $hostname";
 print "$graph3\n";
 my $out = `$graph3`;
+print "$out\n";
+
+my $rsync = "/usr/bin/rsync -avz /home/pi/graphs3/ /home/pi/graphs3_arc";
+print "$rsync\n";
+my $out = `$rsync`;
+print "$out\n";
+
+my $rm = "/bin/rm -rf /home/pi/graphs3/*";
+print "$rm\n";
+my $out = `$rm`;
 print "$out\n";
 
 exit;

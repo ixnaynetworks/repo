@@ -1,0 +1,5 @@
+
+TZ=America/Denver
+
+*/10 * * * * pi /home/pi/bin/shoot_stream.pl "-w 1280 -h 720 -q 95 --rotation 270 --saturation 15 --sharpness 15" 5w5r-f4d9-qmk8-9j2m >> /home/pi/log/webcam 2>&1
+

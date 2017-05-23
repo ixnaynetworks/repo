@@ -1,5 +1,0 @@
-
-TZ=America/Denver
-
-*/5 * * * * pi /home/pi/bin/shoot.pl "-w 1280 -h 720 -n -q 95 --rotation 270 --saturation 15 --sharpness 15" >> /home/pi/log/webcam 2>&1
-

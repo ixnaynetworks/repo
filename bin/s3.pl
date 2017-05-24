@@ -28,7 +28,7 @@ my $sun = DateTime::Event::Sunrise->new(longitude => -111.75547, latitude => +41
 my $dt = DateTime->now(time_zone => 'America/Denver');
 
 my $daytime = 0;
-if(($dt->epoch > $sun->sunrise_datetime($dt)->epoch) and ($dt->epoch < $sun->sunset_datetime($dt)->epoch)) {
+if(($dt->epoch > ($sun->sunrise_datetime($dt)->epoch - 2700)) and ($dt->epoch < ($sun->sunset_datetime($dt)->epoch + 2700))) {
   print "daytime: yes\n";
   $daytime = 1;
 }

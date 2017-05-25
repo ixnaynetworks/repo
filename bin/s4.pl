@@ -9,7 +9,8 @@ my $args = `/bin/cat /home/pi/conf`; chomp($args);
 # am i already running?
 #
 
-my $cmd = "/bin/ps auxww | /bin/grep -v grep | /bin/grep perl | /bin/grep $0";
+#my $cmd = "/bin/ps auxww | /bin/grep -v grep | /bin/grep perl | /bin/grep $0";
+my $cmd = "/usr/bin/top -n1 | /bin/grep -v grep | /bin/grep perl | /bin/grep $0";
 print "cmd=$cmd\n";
 my $out = `$cmd`;
 print "$out\n";

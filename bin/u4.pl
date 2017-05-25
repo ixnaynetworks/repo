@@ -9,7 +9,8 @@ my $args = `/bin/cat /home/pi/conf`; chomp($args);
 # am i already running?
 #
 
-my $cmd = "/bin/ps auxww | /bin/grep -v grep | /bin/grep perl | /bin/grep $0";
+#my $cmd = "/bin/ps auxww | /bin/grep -v grep | /bin/grep perl | /bin/grep $0";
+$0 =~ /.*\/(.*)/; my $cmd = "/usr/bin/top -n1 | /bin/grep -v grep | /bin/grep perl | /bin/grep $1";
 print "cmd=$cmd\n";
 my $out = `$cmd`;
 print "$out\n";
@@ -40,16 +41,18 @@ else {
 # wait till shoot is done
 #
 
-sleep 3;
+my $n;
 while(1)
 {
-  my $cmd = "/bin/ps auxww | /bin/grep -v grep | /bin/grep raspistill";
+  #my $cmd = "/bin/ps auxww | /bin/grep -v grep | /bin/grep raspistill";
+  my $cmd = "/usr/bin/top -b -n1 | /bin/grep s4";
   print "cmd=$cmd\n";
   my $out = `$cmd`;
   print "$out\n";
   print "\n";
 
-  last unless($out);
+  $n++;
+  last unless($out or ($n > 30));
 
   sleep 1;
 }

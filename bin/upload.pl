@@ -9,7 +9,7 @@ my $args = $ARGV[0];
 # am i already running?
 #
 
-my $cmd = "/bin/ps auxww | /bin/grep -v grep | /bin/grep perl | /bin/grep s2";
+my $cmd = "/bin/ps auxww | /bin/grep -v grep | /bin/grep perl | /bin/grep upload";
 print "cmd=$cmd\n";
 my $out = `$cmd`;
 print "$out\n";
@@ -17,20 +17,20 @@ print "\n";
 
 my @proc = split(/\n/, $out);
 if($#proc > 0) {
-  die "another shoot.pl is already running!";
+  die "another upload.pl is already running!";
 }
+
+## in order to apply the "stamp" below we just need to know the time is before/after sunset
 
 #
 # day or night?
 #
 
-## this "shoot" script will switch to night vision 1:20 after sunset until 1:20 before sunrise.
-
 my $sun = DateTime::Event::Sunrise->new(longitude => -111.75547, latitude => +41.92683);
 my $dt = DateTime->now(time_zone => 'America/Denver');
 
 my $daytime = 0;
-if(($dt->epoch < ($sun->sunset_datetime($dt)->epoch + 4800)) and ($dt->epoch > ($sun->sunrise_datetime($dt)->epoch - 4800))) {
+if(($dt->epoch > $sun->sunrise_datetime($dt)->epoch) and ($dt->epoch < $sun->sunset_datetime($dt)->epoch)) {
   print "daytime: yes\n";
   $daytime = 1;
 }
@@ -39,38 +39,29 @@ else {
 }
 
 #
-# compute filename
+# wait till shoot is done
 #
 
-my($sec, $min, $hr, $day, $mon, $year) = localtime(time);
-$year += 1900;
-$mon++;
-my $file = sprintf("%4d%02d%02d%02d%02d%02d.jpg", $year, $mon, $day, $hr, $min, $sec);
-print "\nfile=$file\n";
-print "\n";
+while(1)
+{
+  sleep 1;
 
-#
-# take the pic and save it to an archive somewhere
-#
+  my $cmd = "/bin/ps auxww | /bin/grep -v grep | /bin/grep perl | /bin/grep shoot";
+  print "cmd=$cmd\n";
+  my $out = `$cmd`;
+  print "$out\n";
+  print "\n";
 
-unless($daytime) {
-  $args .= " --exposure night";
+  last unless($out);
 }
-#my $cmd = "/usr/bin/raspistill -v -w 960 -h 720 -n -q 95 --saturation 25 --sharpness 15 -o /home/pi/tmp/$file";
-my $cmd = "/usr/bin/raspistill -v -n $args -o /home/pi/tmp/$file";
-print "cmd=$cmd\n";
-my $out = `$cmd`;
-print "$out\n";
-print "\n";
-
-## done here?
-
-exit;
 
 #
 # upload filename to ixnay, and a dir computed from the hostname
 #
 
+my $file = `/bin/ls -1 /home/pi/tmp/*.jpg | /usr/bin/tail -1`;
+$file =~ s/.*\/(.*)\n/$1/;
+print "file=$file\n";
 my $cam = `/bin/hostname`;
 chomp($cam);
 my $cmd = "/usr/bin/scp /home/pi/tmp/$file uaws:www/vhosts/ixnay/htdocs/cams/$cam/raw";

@@ -3,14 +3,20 @@
 use DateTime;
 use DateTime::Event::Sunrise;
 
-my $args = $ARGV[0];
+#my $args = $ARGV[0];
+my $args = `/bin/cat /home/pi/config`;
+chomp($args);
+unless($args) {
+  $args = "--rotation 0 -w 1280 -h 720 -n -q 95 --saturation 15 --sharpness 15";
+}
+print "\nargs=$args\n";
 
 #
 # am i already running?
 #
 
 my $cmd = "/bin/ps auxww | /bin/grep -v grep | /bin/grep perl | /bin/grep s2";
-print "cmd=$cmd\n";
+print "\ncmd=$cmd\n";
 my $out = `$cmd`;
 print "$out\n";
 print "\n";

@@ -1,0 +1,7 @@
+
+TZ=America/Denver
+
+## cleanup
+ 0 20 * * * pi /usr/bin/find /home/pi/tmp -name "*.jpg" -mtime +3 -delete
+30 20 * * * pi /usr/bin/find /home/pi/arc -name "*.jpg" -mtime +7 -delete
+

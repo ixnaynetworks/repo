@@ -1,0 +1,6 @@
+
+TZ=America/Denver
+
+*   * * * * pi /home/pi/bin/shoot.pl
+*/2 * * * * pi /home/pi/bin/upload.pl
+

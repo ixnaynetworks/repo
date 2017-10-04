@@ -11,6 +11,3 @@ TZ=America/Denver
 ## network check
 9,19,29,39,49,59 * * * * root /sbin/ifup wlan1
 
-## webcam
-*/10 * * * * pi /home/pi/bin/shoot.pl "-w 1870 -h 940 -n -q 95 --saturation 15 --sharpness 15" >> /home/pi/log/webcam 2>&1
-

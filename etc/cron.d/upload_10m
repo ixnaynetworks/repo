@@ -1,0 +1,6 @@
+
+TZ=America/Denver
+
+*    * * * * pi /home/pi/bin/s3.pl "-w 1280 -h 720 -n -q 95 --saturation 15 --sharpness 15"
+*/10 * * * * pi /home/pi/bin/u3.pl "-w 1280 -h 720 -n -q 95 --saturation 15 --sharpness 15"
+

@@ -1,5 +1,7 @@
 #!/usr/bin/perl
 
+my $base = "/home/pi/graphs3";
+
 ## compute filename
 #my $file = time() . ".txt";
 my($sec, $min, $hr, $day, $mon, $year) = localtime(time);
@@ -10,14 +12,15 @@ my $file = sprintf("%4d%02d%02d%02d%02d%02d.txt", $year, $mon, $day, $hr, $min, 
 &traceroute();
 &df();
 &vcgencmd();
-&mopicli();
-&router();
+&iwconfig();
+#&mopicli();
+#&router();
 
 print "\n";
 my $hostname = `/bin/hostname`;
 chomp($hostname);
 
-my $rsync = "/usr/bin/rsync -avz --delete /home/pi/graphs3/ uaws2:www/vhosts/ixnay/htdocs/cams/$hostname/graphs3/uploads";
+my $rsync = "/usr/bin/rsync -avz $base/ uaws2:www/vhosts/ixnay/htdocs/cams/$hostname/graphs3/uploads";
 print "$rsync\n";
 my $out = `$rsync`;
 print "$out\n";
@@ -33,10 +36,23 @@ exit;
 #
 #
 
+sub iwconfig
+{
+  print "\n";
+  my $dir = "$base/iwconfig";
+  `/bin/mkdir $dir` unless(-e $dir);
+  my $iwconfig = "/sbin/iwconfig >> $dir/$file";
+  print "$iwconfig\n";
+  my $out = `$iwconfig`;
+  print "$out\n";
+}
+
 sub traceroute
 {
   print "\n";
-  my $traceroute = "/usr/bin/sudo /usr/sbin/traceroute -T -n 35.162.236.91 >> /home/pi/graphs3/traceroute/$file";
+  my $dir = "$base/traceroute";
+  `/bin/mkdir $dir` unless(-e $dir);
+  my $traceroute = "/usr/bin/sudo /usr/sbin/traceroute -T -n 35.162.236.91 >> $dir/$file";
   print "$traceroute\n";
   my $out = `$traceroute`;
   print "$out\n";
@@ -45,7 +61,9 @@ sub traceroute
 sub df
 {
   print "\n";
-  my $df = "/bin/df -h >> /home/pi/graphs3/df/$file";
+  my $dir = "$base/df";
+  `/bin/mkdir $dir` unless(-e $dir);
+  my $df = "/bin/df -h >> $dir/$file";
   print "$df\n";
   my $out = `$df`;
   print "$out\n";
@@ -54,7 +72,9 @@ sub df
 sub vcgencmd
 {
   print "\n";
-  my $vcgencmd = "/opt/vc/bin/vcgencmd measure_temp >> /home/pi/graphs3/vcgencmd/$file";
+  my $dir = "$base/vcgencmd";
+  `/bin/mkdir $dir` unless(-e $dir);
+  my $vcgencmd = "/opt/vc/bin/vcgencmd measure_temp >> $dir/$file";
   print "$vcgencmd\n";
   my $out = `$vcgencmd`;
   print "$out\n";
@@ -63,7 +83,9 @@ sub vcgencmd
 sub mopicli
 {
   print "\n";
-  my $mopicli = "/usr/sbin/mopicli -e >> /home/pi/graphs3/mopicli/$file";
+  my $dir = "$base/mopicli";
+  `/bin/mkdir $dir` unless(-e $dir);
+  my $mopicli = "/usr/sbin/mopicli -e >> $dir/$file";
   print "$mopicli\n";
   my $out = `$mopicli`;
   print "$out\n";
@@ -71,8 +93,10 @@ sub mopicli
 
 sub router
 {
+  my $dir = "$base/router";
+  `/bin/mkdir $dir` unless(-e $dir);
   my($sh);
-  open($sh, ">", "/home/pi/graphs3/router/$file");
+  open($sh, ">", "$dir/$file");
 
   my($cmd, $out);
 

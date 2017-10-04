@@ -3,20 +3,14 @@
 use DateTime;
 use DateTime::Event::Sunrise;
 
-#my $args = $ARGV[0];
-my $args = `/bin/cat /home/pi/config`;
-chomp($args);
-unless($args) {
-  $args = "--rotation 0 -w 1280 -h 720 -n -q 95 --saturation 15 --sharpness 15";
-}
-print "\nargs=$args\n";
+my $args = $ARGV[0];
 
 #
 # am i already running?
 #
 
 my $cmd = "/bin/ps auxww | /bin/grep -v grep | /bin/grep perl | /bin/grep s2";
-print "\ncmd=$cmd\n";
+print "cmd=$cmd\n";
 my $out = `$cmd`;
 print "$out\n";
 print "\n";
@@ -30,13 +24,11 @@ if($#proc > 0) {
 # day or night?
 #
 
-## this "shoot" script will switch to night vision 1:20 after sunset until 1:20 before sunrise.
-
 my $sun = DateTime::Event::Sunrise->new(longitude => -111.75547, latitude => +41.92683);
 my $dt = DateTime->now(time_zone => 'America/Denver');
 
 my $daytime = 0;
-if(($dt->epoch < ($sun->sunset_datetime($dt)->epoch + 4800)) and ($dt->epoch > ($sun->sunrise_datetime($dt)->epoch - 4800))) {
+if(($dt->epoch > ($sun->sunrise_datetime($dt)->epoch - 2700)) and ($dt->epoch < ($sun->sunset_datetime($dt)->epoch + 2700))) {
   print "daytime: yes\n";
   $daytime = 1;
 }

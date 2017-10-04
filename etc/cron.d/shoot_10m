@@ -1,0 +1,5 @@
+
+TZ=America/Denver
+
+*/10 * * * * pi /home/pi/bin/shoot.pl "-w 1280 -h 720 -n -q 95 --saturation 15 --sharpness 15"
+

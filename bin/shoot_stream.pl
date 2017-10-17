@@ -3,8 +3,15 @@
 use DateTime;
 use DateTime::Event::Sunrise;
 
-my $args = $ARGV[0];
-my $key = $ARGV[1];
+#my $args = $ARGV[0];
+my $args = `/bin/cat /home/pi/config`;
+chomp($args);
+unless($args) {
+  $args = "--rotation 0 -w 1280 -h 720 -n -q 95 --saturation 15 --sharpness 15";
+}
+print "\nargs=$args\n";
+
+my $key = $ARGV[0];
 
 #
 # am i already running?
@@ -77,13 +84,23 @@ print "\n";
 
 ##raspivid -o - -t 0 -vf -hf -fps 30 -b 6000000 -rot 90 | ffmpeg -re -ar 44100 -ac 2 -acodec pcm_s16le -f s16le -ac 2 -i /dev/zero -f h264 -i - -vcodec copy -acodec aac -ab 128k -g 50 -strict experimental -f flv rtmp://a.rtmp.youtube.com/live2/amz7-tkk8-fdek-8hhw
 
+$args =~ /\-rot(?:ation)? (\d+)/;
+my $rot = $1;
+if($rot < 180) {
+  $rot += 180;
+}
+else {
+  $rot -= 180;
+}
+
 my $try;
 while($try <= 3) {
   $try++;
   sleep 1;
 
-  #my $cmd = "/usr/bin/raspivid -o - -t 0 -vf -hf -b 25000000 -rot 90 -w 1280 -h 720 --exposure night -fps 30 | /usr/local/bin/ffmpeg -loglevel panic -re -ar 44100 -ac 2 -acodec pcm_s16le -f s16le -ac 2 -i /dev/zero -f h264 -i - -vcodec copy -acodec aac -ab 128k -g 50 -strict experimental -f flv rtmp://a.rtmp.youtube.com/live2/$key";
-  my $cmd = "/usr/bin/raspivid -o - -t 0 -vf -hf -b 25000000 -rot 270 -w 1280 -h 720 --framerate 30 --exposure night | /usr/local/bin/ffmpeg -loglevel panic -re -ar 44100 -ac 2 -acodec pcm_s16le -f s16le -ac 2 -i /dev/zero -f h264 -i - -i /home/pi/logo_night.png -vcodec copy -acodec aac -ab 128k -g 50 -strict experimental -f flv rtmp://a.rtmp.youtube.com/live2/$key";
+  my $cmd = "/usr/bin/raspivid -o - -t 0 -vf -hf -b 25000000 -rot $rot -w 1280 -h 720 --exposure night -fps 30 | /usr/local/bin/ffmpeg -loglevel panic -re -ar 44100 -ac 2 -acodec pcm_s16le -f s16le -ac 2 -i /dev/zero -f h264 -i - -vcodec copy -acodec aac -ab 128k -g 50 -strict experimental -f flv rtmp://a.rtmp.youtube.com/live2/$key";
+  #my $cmd = "/usr/bin/raspivid -o - -t 0 -vf -hf -b 25000000 -rot 270 -w 1280 -h 720 --framerate 30 --exposure night | /usr/local/bin/ffmpeg -loglevel panic -re -ar 44100 -ac 2 -acodec pcm_s16le -f s16le -ac 2 -i /dev/zero -f h264 -i - -i /home/pi/logo_night.png -vcodec copy -acodec aac -ab 128k -g 50 -strict experimental -f flv rtmp://a.rtmp.youtube.com/live2/$key";
+  print "$cmd\n";
   system("$cmd &");
 
   my $pid = `/usr/bin/pgrep raspivid`;

@@ -1,3 +1,4 @@
+sudo cp /home/pi/repo/usr/local/bin/ffmpeg /usr/local/bin
 sudo apt-get install libva-drm1
 sudo apt-get install libva-x11-1
 sudo apt-get install libxcb-xfixes0

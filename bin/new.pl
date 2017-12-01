@@ -69,8 +69,10 @@ sub upload_scheduled
 {
   my $upload;
 
-print "min=$min\n";
-  if(($min =~ /[02468]$/) and (-e "/home/pi/conf/upload_02m")) {
+  if($ARGV[0] eq "upload") {
+    $upload = 1;
+  }
+  elsif(($min =~ /[02468]$/) and (-e "/home/pi/conf/upload_02m")) {
     $upload = 1;
   }
   elsif(($min =~ /[05]$/) and (-e "/home/pi/conf/upload_05m")) {

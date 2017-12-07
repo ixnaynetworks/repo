@@ -78,10 +78,11 @@ sub upload_scheduled
   elsif(($min =~ /[05]$/) and (-e "/home/pi/conf/upload_05m")) {
     $upload = 1;
   }
-  elsif(($min =~ /0$/) and (-e "/home/pi/conf/upload_10m")) {
+  elsif($min =~ /0$/) {
+    ## upload every-10-minutes by default
     $upload = 1;
   }
-
+ 
   return $upload;
 }
 

@@ -67,9 +67,13 @@ exit;
 
 sub upload_scheduled
 {
-  my $upload;
+  my $upload = 0;
 
   if($ARGV[0] eq "upload") {
+    $upload = 1;
+  }
+  elsif(-e "/home/pi/conf/streaming" and ($min =~ /0$/))
+    ## upload every-10-minutes during stream
     $upload = 1;
   }
   elsif(($min =~ /[02468]$/) and (-e "/home/pi/conf/upload_02m")) {

@@ -149,11 +149,11 @@ sub stream_start
     $try++;
     sleep 1;
 
-    ## 1000000 == 1Mbps
+    ## 2000000 == 1Mbps
     ## https://teradek.com/blogs/articles/what-is-the-optimal-bitrate-for-your-resolution
     ## a little low by this standard
 
-    my $cmd = "/usr/bin/raspivid -o - -t 0 -vf -hf -b 1000000 -fps 30 -rot $rot -w 1280 -h 720 -a 1036 | /usr/local/bin/ffmpeg -loglevel panic -re -ar 44100 -ac 2 -acodec pcm_s16le -f s16le -ac 2 -i /dev/zero -f h264 -i - -vcodec copy -acodec aac -ab 128k -g 50 -strict experimental -f flv rtmp://a.rtmp.youtube.com/live2/$key";
+    my $cmd = "/usr/bin/raspivid -o - -t 0 -vf -hf -b 2000000 -fps 30 -rot $rot -w 1280 -h 720 -a 1036 | /usr/local/bin/ffmpeg -loglevel panic -re -ar 44100 -ac 2 -acodec pcm_s16le -f s16le -ac 2 -i /dev/zero -f h264 -i - -vcodec copy -acodec aac -ab 128k -g 50 -strict experimental -f flv rtmp://a.rtmp.youtube.com/live2/$key";
 
     print "$cmd\n";
     system("$cmd &");

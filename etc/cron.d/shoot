@@ -1,0 +1,5 @@
+
+TZ=America/Denver
+
+* * * * * pi /home/pi/bin/new.pl >> /home/pi/log/new
+

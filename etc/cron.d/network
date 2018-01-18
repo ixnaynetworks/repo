@@ -1,0 +1,7 @@
+
+TZ=America/Denver
+
+## network check
+0,19,29,39,49,59 * * * * root /sbin/ifup wlan0
+#0,19,29,39,49,59 * * * * root /sbin/ifup wlan1
+

@@ -32,6 +32,9 @@ my $min = (localtime(time))[1];
 my $args = `/bin/cat /home/pi/conf/raspistill`;
 chomp($args);
 
+my $mogrify = `/bin/cat /home/pi/conf/mogrify`;
+chomp($mogrify);
+
 my $file;
 
 if(-e "/home/pi/conf/streaming")
@@ -220,6 +223,15 @@ sub shoot
   print "$out\n";
   print "\n";
 
+  if($mogrify)
+  {
+    my $cmd = "/usr/bin/mogrify $mogrify /home/pi/tmp/$file";
+    print "cmd=$cmd\n";
+    my $out = `$cmd`;
+    print "$out\n";
+    print "\n";
+  }
+
   return $daytime, $file;
 }
 
@@ -248,9 +260,15 @@ sub upload
   # call the stamp.pl on ixnay to do the rest
   #
 
-  $args =~ /\-w (\d+) \-h (\d+)/;
-  my $w = $1;
-  my $h = $2;
+  my($w, $h);
+  if($mogrify =~ /crop (\d+)x(\d+)/) {
+    $w = $1; $h = $2;
+  }
+  else {
+    $args =~ /\-w (\d+) \-h (\d+)/;
+    $w = $1; $h = $2;
+  }
+
   if($daytime) {
     $logo = "logo_day.png";
   }

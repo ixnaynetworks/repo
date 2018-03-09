@@ -41,7 +41,7 @@ if(-e "/home/pi/conf/streaming")
 {
   if(&upload_scheduled()) {
     &stream_stop();
-    ($daytime, $file) = &shoot();
+    $file = &shoot();
   }
 
   unless(&stream_pid()) {
@@ -51,7 +51,7 @@ if(-e "/home/pi/conf/streaming")
 else
 {
   &stream_stop();
-  ($daytime, $file) = &shoot();
+  $file = &shoot();
 }
 
 #
@@ -59,7 +59,8 @@ else
 #
 
 if(&upload_scheduled()) {
-  &upload($daytime, $file);
+  #&upload($daytime, $file);
+  &upload_stamped($daytime, $file);
 }
 
 exit;
@@ -190,7 +191,7 @@ sub shoot
 
   ## switch to night vision 1:20 after sunset until 1:20 before sunrise.
   my $daytime = 0;
-  if(($dt->epoch < ($sun->sunset_datetime($dt)->epoch + 4800)) and ($dt->epoch > ($sun->sunrise_datetime($dt)->epoch - 4800))) {
+  if(($dt->epoch < ($sun->sunset_datetime($dt)->epoch + 0)) and ($dt->epoch > ($sun->sunrise_datetime($dt)->epoch - 0))) {
     print "daytime: yes\n";
     $daytime = 1;
   }
@@ -217,7 +218,7 @@ sub shoot
     $args .= " --exposure night";
   }
 
-  my $cmd = "/usr/bin/raspistill -v -n $args -o /home/pi/tmp/$file";
+  my $cmd = "/usr/bin/raspistill -v -n $args -o /home/pi/raw/$file";
   print "cmd=$cmd\n";
   my $out = `$cmd`;
   print "$out\n";
@@ -225,14 +226,39 @@ sub shoot
 
   if($mogrify)
   {
-    my $cmd = "/usr/bin/mogrify $mogrify /home/pi/tmp/$file";
+    my $cmd = "/usr/bin/mogrify $mogrify /home/pi/raw/$file";
     print "cmd=$cmd\n";
     my $out = `$cmd`;
     print "$out\n";
     print "\n";
   }
 
-  return $daytime, $file;
+  #
+  # call the stamp.pl
+  #
+
+  my($w, $h);
+  if($mogrify =~ /crop (\d+)x(\d+)/) {
+    $w = $1; $h = $2;
+  }
+  else {
+    $args =~ /\-w (\d+) \-h (\d+)/;
+    $w = $1; $h = $2;
+  }
+
+  if($daytime) {
+    $logo = "logo_day.png";
+  }
+  else {
+    $logo = "logo_night.png";
+  }
+  my $cmd = "/home/pi/bin/stamp.pl /home/pi/raw/$file $w $h $logo";
+  print "cmd=$cmd\n";
+  my $out = `$cmd`;
+  print "out=$out\n";
+  print "\n";
+
+  return $file;
 }
 
 #
@@ -275,7 +301,61 @@ sub upload
   else {
     $logo = "logo_night.png";
   }
-  my $cmd = "/usr/bin/ssh uaws www/vhosts/ixnay/bin/stamp_config.pl $cam/raw/$file $w $h $logo";
+  my $cmd = "/usr/bin/ssh uaws www/vhosts/ixnay/bin/stamp_20180309.pl $cam/raw/$file $w $h $logo";
+  print "cmd=$cmd\n";
+  my $out = `$cmd`;
+  print "out=$out\n";
+  print "\n";
+}
+
+sub upload_stamped
+{
+  my($daytime, $file) = @_;
+
+  #
+  # call the stamp.pl
+  #
+
+#  my($w, $h);
+#  if($mogrify =~ /crop (\d+)x(\d+)/) {
+#    $w = $1; $h = $2;
+#  }
+#  else {
+#    $args =~ /\-w (\d+) \-h (\d+)/;
+#    $w = $1; $h = $2;
+#  }
+
+#  if($daytime) {
+#    $logo = "logo_day.png";
+#  }
+#  else {
+#    $logo = "logo_night.png";
+#  }
+#  my $cmd = "/home/pi/bin/stamp.pl /home/pi/raw/$file $w $h $logo";
+#  print "cmd=$cmd\n";
+#  my $out = `$cmd`;
+#  print "out=$out\n";
+#  print "\n";
+
+  #
+  # upload filename to ixnay, and a dir computed from the hostname
+  #
+
+  print "file=$file\n";
+  my $cam = `/bin/hostname`;
+  chomp($cam);
+  #my $cmd = "/usr/bin/scp /home/pi/arc/$file uaws:www/vhosts/ixnay/htdocs/cams/$cam/arc";
+  my $cmd = "/bin/cp /home/pi/arc/$file /home/pi/upload/$file ; /usr/bin/rsync -avz /home/pi/upload/* uaws:www/vhosts/ixnay/htdocs/cams/$cam/arc";
+  print "cmd=$cmd\n";
+  my $out = `$cmd`;
+  print "out=$out\n";
+  print "\n";
+
+  #
+  # copy to current
+  #
+
+  my $cmd = "/usr/bin/ssh uaws /bin/cp www/vhosts/ixnay/htdocs/cams/$cam/arc/$file www/vhosts/ixnay/htdocs/cams/$cam/current.jpg";
   print "cmd=$cmd\n";
   my $out = `$cmd`;
   print "out=$out\n";

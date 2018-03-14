@@ -214,9 +214,9 @@ sub shoot
   # take the pic and save it to an archive somewhere
   #
 
-  unless($daytime) {
-    $args .= " --exposure night";
-  }
+  #unless($daytime) {
+  #  $args .= " --exposure night";
+  #}
 
   my $cmd = "/usr/bin/raspistill -v -n $args -o /home/pi/raw/$file";
   print "cmd=$cmd\n";
@@ -237,6 +237,7 @@ sub shoot
   # call the stamp.pl
   #
 
+  ## calculate w,h
   my($w, $h);
   if($mogrify =~ /crop (\d+)x(\d+)/) {
     $w = $1; $h = $2;
@@ -246,12 +247,23 @@ sub shoot
     $w = $1; $h = $2;
   }
 
-  if($daytime) {
+  ## choose a logo
+  my $sec_early = 0;
+  my $sec_late = 0;
+  if(-e "/home/pi/conf/sunrise") {
+    $sec_early = 1800;
+  }
+  elsif(-e "/home/pi/conf/sunset") {
+    $sec_late = 1800;
+  }
+  if(($dt->epoch > ($sun->sunrise_datetime($dt)->epoch - $sec_early)) and ($dt->epoch < ($sun->sunset_datetime($dt)->epoch + $sec_late))) {
     $logo = "logo_day.png";
   }
   else {
     $logo = "logo_night.png";
   }
+
+  ## stamp
   my $cmd = "/home/pi/bin/stamp.pl /home/pi/raw/$file $w $h $logo";
   print "cmd=$cmd\n";
   my $out = `$cmd`;

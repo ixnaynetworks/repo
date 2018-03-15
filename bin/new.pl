@@ -217,7 +217,7 @@ sub shoot
   my $night_exposure_time;
   if(-e "/home/pi/conf/night_skiing") {
     use Time::Local qw( timelocal );
-    $night_exposure_time = timelocal(0, 0, 21, $day, $mon, $year);
+    $night_exposure_time = timelocal(0, 0, 21, $day, $mon-1, $year);
   }
   else {
     $night_exposure_time = $sun->sunset_datetime($dt)->epoch + 1800;

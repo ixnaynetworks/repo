@@ -214,9 +214,19 @@ sub shoot
   # take the pic and save it to an archive somewhere
   #
 
-  #unless($daytime) {
-  #  $args .= " --exposure night";
-  #}
+  my $night_exposure_time;
+  if(-e "/home/pi/conf/night_skiing") {
+    use Time::Local qw( timelocal );
+    $night_exposure_time = timelocal(0, 0, 21, $day, $mon, $year);
+  }
+  else {
+    $night_exposure_time = $sun->sunset_datetime($dt)->epoch + 1800;
+  }
+  print "night_exposure_time=$night_exposure_time\n";
+
+  if(($dt->epoch < ($sun->sunrise_datetime($dt)->epoch - 1800)) or ($dt->epoch > $night_exposure_time)) {
+    $args .= " -ss 1000000";
+  }
 
   my $cmd = "/usr/bin/raspistill -v -n $args -o /home/pi/raw/$file";
   print "cmd=$cmd\n";
@@ -229,7 +239,7 @@ sub shoot
     my $cmd = "/usr/bin/mogrify $mogrify /home/pi/raw/$file";
     print "cmd=$cmd\n";
     my $out = `$cmd`;
-    print "$out\n";
+    print "mogrify=$out\n";
     print "\n";
   }
 
@@ -239,7 +249,7 @@ sub shoot
 
   ## calculate w,h
   my($w, $h);
-  if($mogrify =~ /crop (\d+)x(\d+)/) {
+  if($mogrify =~ /resize (\d+)x(\d+)/) {
     $w = $1; $h = $2;
   }
   else {
@@ -367,7 +377,13 @@ sub upload_stamped
   # copy to current
   #
 
-  my $cmd = "/usr/bin/ssh uaws /bin/cp www/vhosts/ixnay/htdocs/cams/$cam/arc/$file www/vhosts/ixnay/htdocs/cams/$cam/current.jpg";
+  my $cmd = "/usr/bin/ssh uaws ";
+  $cmd .= "'";
+  $cmd .= "/bin/cp www/vhosts/ixnay/htdocs/cams/$cam/arc/$file www/vhosts/ixnay/htdocs/cams/$cam/current.jpg";
+  #$cmd .= "; /bin/cp www/vhosts/ixnay/htdocs/cams/$cam/current.jpg www/vhosts/ixnay/htdocs/cams/$cam/current_dashboard.jpg";
+  #$cmd .= "; /usr/bin/mogrify -background black -gravity center -resize 1280x960 -extent 1280x960 www/vhosts/ixnay/htdocs/cams/$cam/current.jpg";
+  $cmd .= "'";
+
   print "cmd=$cmd\n";
   my $out = `$cmd`;
   print "out=$out\n";

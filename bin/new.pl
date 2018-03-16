@@ -216,21 +216,24 @@ sub shoot
 
   my $night_exposure_time;
   if(-e "/home/pi/conf/night_skiing") {
+    ## delay longer exposure times for night skiing
     use Time::Local qw( timelocal );
     $night_exposure_time = timelocal(0, 0, 21, $day, $mon-1, $year);
   }
   else {
-    $night_exposure_time = $sun->sunset_datetime($dt)->epoch + 1800;
+    ## otherwise one hour after sunset
+    $night_exposure_time = $sun->sunset_datetime($dt)->epoch + 3600;
   }
   print "night_exposure_time=$night_exposure_time\n";
 
-  if(($dt->epoch < ($sun->sunrise_datetime($dt)->epoch - 1800)) or ($dt->epoch > $night_exposure_time)) {
+  ## stop long exposures one hour before sunrise
+  if(($dt->epoch < ($sun->sunrise_datetime($dt)->epoch - 3600)) or ($dt->epoch > $night_exposure_time)) {
     $args .= " -ss 1000000";
   }
 
   my $cmd = "/usr/bin/raspistill -v -n $args -o /home/pi/raw/$file";
   print "cmd=$cmd\n";
-  my $out = `$cmd`;
+  my $out = `$cmd 2>&1`;
   print "$out\n";
   print "\n";
 
@@ -249,7 +252,7 @@ sub shoot
 
   ## calculate w,h
   my($w, $h);
-  if($mogrify =~ /resize (\d+)x(\d+)/) {
+  if($mogrify =~ /.* (\d+)x(\d+)/) {
     $w = $1; $h = $2;
   }
   else {
@@ -309,7 +312,7 @@ sub upload
   #
 
   my($w, $h);
-  if($mogrify =~ /crop (\d+)x(\d+)/) {
+  if($mogrify =~ /.* (\d+)x(\d+)/) {
     $w = $1; $h = $2;
   }
   else {

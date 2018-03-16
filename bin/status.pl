@@ -19,11 +19,12 @@ my $cpuinfo = &run("/bin/cat /proc/cpuinfo");
 
 my $model;
 if($cpuinfo =~ /Revision\s+: (\w+)/s) {
-  if($1 eq "0010") {
-    $model = "B+ // 700 MHz // 512mb";
+  my $revision = $1;
+  if($revision eq "0010") {
+    $model = "$revision: B+ // 700 MHz // 512mb";
   }
-  elsif($1 eq "a02082") {
-    $model = "3 Model B // 1200 MHz // 1gb";
+  elsif($revision =~ /a[02]2082/) {
+    $model = "$revision: 3 Model B // 1200 MHz // 1gb";
   }
 }
 $out .= "\n#\n" . "# model" . "\n#";

@@ -20,10 +20,10 @@ my $cpuinfo = &run("/bin/cat /proc/cpuinfo");
 my $model;
 if($cpuinfo =~ /Revision\s+: (\w+)/s) {
   if($1 eq "0010") {
-    $model = "B+";
+    $model = "B+ // 512mb";
   }
   elsif($1 eq "a02082") {
-    $model = "3 Model B";
+    $model = "3 Model B // 1gb";
   }
 }
 $out .= "\n#\n" . "# model" . "\n#";

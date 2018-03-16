@@ -42,6 +42,15 @@ $out .= "\n\n" . $uptime . "\n";
 #
 #
 
+my $df = &run("/bin/df -h /");
+
+$out .= "\n#\n" . "# df" . "\n#";
+$out .= "\n\n" . $df . "\n";
+
+#
+#
+#
+
 my $ifconfig = &run("/sbin/ifconfig wlan");
 
 $out .= "\n#\n" . "# ifconfig" . "\n#";

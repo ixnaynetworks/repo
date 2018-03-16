@@ -1,5 +1,5 @@
 
 TZ=America/Denver
 
-0 12 * * * pi /home/pi/bin/status.pl > /home/pi/status.txt ; /usr/bin/scp /home/pi/status.txt uaws2:www/vhosts/ixnay/htdocs/cams/`hostname`
+0 * * * * pi /home/pi/bin/status.pl > /home/pi/status.txt ; /usr/bin/scp /home/pi/status.txt uaws2:www/vhosts/ixnay/htdocs/cams/`hostname`
 

@@ -33,6 +33,15 @@ $out .= "\n\n" . $model . "\n";
 #
 #
 
+my $date = &run("/bin/date");
+
+$out .= "\n#\n" . "# date" . "\n#";
+$out .= "\n\n" . $date . "\n";
+
+#
+#
+#
+
 my $uptime = &run("/usr/bin/uptime");
 
 $out .= "\n#\n" . "# uptime" . "\n#";

@@ -19,16 +19,15 @@ my $cpuinfo = &run("/bin/cat /proc/cpuinfo");
 
 my $model;
 if($cpuinfo =~ /Revision\s+: (\w+)/s) {
-  my $revision = $1;
-  if($revision eq "0010") {
-    $model = "$revision: B+ // 700 MHz // 512mb";
+  if($1 eq "0010") {
+    $model = "B+ // 700 MHz // 512mb";
   }
-  elsif($revision =~ /a[02]2082/) {
-    $model = "$revision: 3 Model B // 1200 MHz // 1gb";
+  elsif($1 eq "a02082") {
+    $model = "3 Model B // 1200 MHz // 1gb";
   }
 }
-$out .= "\n#\n" . "# model" . "\n#";
-$out .= "\n\n" . $model . "\n";
+$out .= "\n#" . "\n# model" . "\n# https://elinux.org/RPi_HardwareHistory" . "\n#";
+$out .= "\n\n$model\n";
 
 #
 #

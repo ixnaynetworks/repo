@@ -60,16 +60,22 @@ $out .= "\n\n" . $df . "\n";
 #
 #
 
-my $ifconfig = &run("/sbin/ifconfig wlan");
+my $netstat = &run("/bin/netstat -rn");
+foreach my $line (split(/\n/, $netstat)) {
+  if($line =~ /^\d.*?(\w+)$/) {
+    unless(grep(/^$1$/, @interface)) {
+      push(@interface, $1);
+    }
+  }
+}
 
 $out .= "\n#\n" . "# ifconfig" . "\n#";
-$out .= "\n\n" . $ifconfig . "\n";
+$out .= "\n";
 
-#
-#
-#
-
-my $netstat = &run("/bin/netstat -rn");
+foreach my $interface (sort @interface) {
+  my $ifconfig = &run("/sbin/ifconfig $interface");
+  $out .= "\n" . $ifconfig;
+}
 
 $out .= "\n#\n" . "# netstat" . "\n#";
 $out .= "\n\n" . $netstat . "\n";

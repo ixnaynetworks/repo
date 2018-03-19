@@ -67,7 +67,7 @@ my $cmd = "/usr/bin/convert $file -fill '#000A' -draw 'rectangle $rectangle' -fi
 if($logo) {
   $cmd .= " $logo -gravity $logo_pos -composite";
 }
-$cmd .= " $base/conf/rpi.png -gravity southeast -geometry +15+10 -composite $base/tmp/left_bottom_label.jpg";
+$cmd .= " $base/conf/rpi.png -gravity southeast -geometry +135+10 -composite $base/tmp/left_bottom_label.jpg";
 print "cmd=$cmd\n";
 $out = `$cmd`;
 print "out=$out\n";
@@ -84,7 +84,7 @@ my $timestamp = "$1/$2/$3 $4:$5";
 # final processing
 #
 
-my $cmd = "/usr/bin/convert -background '#00000000' -fill '#CCCCCC' -pointsize 20 -font Courier-Bold label:'$timestamp' miff:- | composite -gravity southeast -geometry +45+9 - $base/tmp/left_bottom_label.jpg $base/arc/$img";
+my $cmd = "/usr/bin/convert -background '#00000000' -fill '#CCCCCC' -pointsize 20 -font Courier-Bold label:'$timestamp    ixnay.net' miff:- | composite -gravity southeast -geometry +15+9 - $base/tmp/left_bottom_label.jpg $base/arc/$img";
 print "cmd=$cmd\n";
 $out = `$cmd`;
 print "out=$out\n";

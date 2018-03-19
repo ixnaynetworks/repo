@@ -370,7 +370,7 @@ sub upload_stamped
   my $cam = `/bin/hostname`;
   chomp($cam);
   #my $cmd = "/usr/bin/scp /home/pi/arc/$file uaws:www/vhosts/ixnay/htdocs/cams/$cam/arc";
-  my $cmd = "/bin/cp /home/pi/arc/$file /home/pi/upload/$file ; /usr/bin/rsync -avz /home/pi/upload/* uaws:www/vhosts/ixnay/htdocs/cams/$cam/arc";
+  my $cmd = "/bin/cp /home/pi/arc/$file /home/pi/upload/$file ; /usr/bin/rsync -avz --remove-source-files /home/pi/upload/* uaws:www/vhosts/ixnay/htdocs/cams/$cam/arc";
   print "cmd=$cmd\n";
   my $out = `$cmd`;
   print "out=$out\n";

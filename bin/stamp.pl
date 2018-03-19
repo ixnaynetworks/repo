@@ -63,7 +63,7 @@ my $baseline = $h - 15;
 #my $cmd = "/usr/bin/convert $file -fill '#0008' -draw 'rectangle $rectangle' -fill '#CCCCCC' -pointsize 20 -font Courier-Bold -annotate +15+$baseline '$label' $base/img/logo.png -gravity northwest -geometry +20+0 -composite $base/img/rpi.png -gravity southeast -geometry +15+10 -composite $base/img/left_bottom_label.jpg";
 #my $cmd = "/usr/bin/convert $file -fill '#0008' -draw 'rectangle $rectangle' -fill '#CCCCCC' -pointsize 20 -font Courier-Bold -annotate +15+$baseline '$label' $logo -gravity $logo_pos -composite $base/conf/rpi.png -gravity southeast -geometry +15+10 -composite $base/img/left_bottom_label.jpg";
 
-my $cmd = "/usr/bin/convert $file -fill '#0008' -draw 'rectangle $rectangle' -fill '#CCCCCC' -pointsize 20 -font Courier-Bold -annotate +15+$baseline '$label'";
+my $cmd = "/usr/bin/convert $file -fill '#000A' -draw 'rectangle $rectangle' -fill '#CCCCCC' -pointsize 20 -font Courier-Bold -annotate +15+$baseline '$label'";
 if($logo) {
   $cmd .= " $logo -gravity $logo_pos -composite";
 }

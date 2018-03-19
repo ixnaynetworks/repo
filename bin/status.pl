@@ -77,6 +77,16 @@ foreach my $interface (sort @interface) {
   $out .= "\n" . $ifconfig;
 }
 
+$out .= "\n#\n" . "# iwconfig" . "\n#";
+$out .= "\n";
+
+foreach my $interface (sort @interface) {
+  if($interface =~ /^w/) {
+    my $iwconfig = &run("/sbin/iwconfig $interface");
+    $out .= "\n" . $iwconfig;
+  }
+}
+
 $out .= "\n#\n" . "# netstat" . "\n#";
 $out .= "\n\n" . $netstat . "\n";
 

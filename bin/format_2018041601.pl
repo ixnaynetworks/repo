@@ -39,7 +39,7 @@ chomp($brightness);
 print "\n$brightness";
 
 my $logo;
-if($brightness > 0.5) {
+if($brightness > 0.35) {
   $logo = "$base/conf/logo_day.png";
 }
 else {

@@ -1,0 +1,9 @@
+
+TZ=America/Denver
+
+0 12 * * * pi /usr/bin/find /home/pi/raw /home/pi/upload -name "*.jpg" -mtime +1 -delete
+9 12 * * * pi /usr/bin/find /home/pi/arc                 -name "*.jpg" -mtime +7 -delete
+
+## rotate log
+0 12 * * 0 pi /bin/sleep 50; /bin/cp /home/pi/log/shoot /home/pi/log/shoot_`date +"%Y%m%d"`; /bin/cp /dev/null /home/pi/log/shoot; /usr/bin/find /home/pi/log -name "shoot*" -mtime +90 -delete
+

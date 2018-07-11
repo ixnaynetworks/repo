@@ -1,0 +1,5 @@
+
+TZ=America/Denver
+
+1 * * * * pi /home/pi/bin/timelapse_hourly.pl
+

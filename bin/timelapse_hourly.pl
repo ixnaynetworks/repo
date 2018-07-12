@@ -23,11 +23,13 @@ my @file = readdir(DH);
 closedir(DH);
 #print "files=@file\n";
 
+my $i;
 my @hour;
 my $thumb;
 foreach my $file (sort @file) {
   if($file =~ /^$date/) {
     #print "file=$base/tl_thumb/$file\n";
+    $i++;
     unless(-e "$base/tl_thumb/$file")
     {
       $cmd = "/usr/bin/convert $base/arc/$file -resize x360 $base/tl_thumb/$file 2>&1";
@@ -51,6 +53,15 @@ foreach my $file (sort @file) {
   }
 }
 
+## Framerate
+print "i=$i\n\n";
+my $r = int($i / 30);
+if($r < 15) {
+  $r = 15;
+}
+#elsif($r > 30) {
+#  $r = 30;
+#}
 
 foreach my $num (0..24)
 {
@@ -95,9 +106,6 @@ foreach my $num (0..24)
   #
 
   #print "\ncreating the mp4 slideshow video...\n\n";
-
-  my $r = 30;
-  #print "r=$r\n";
 
   $com = "/usr/bin/avconv -y -r $r -i $base/tl_avc/file-%03d.jpg -vcodec libx264 -y $base/tl_mp4_hourly/$hour.mp4 2>\&1";
   print "$com\n";

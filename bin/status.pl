@@ -29,6 +29,9 @@ if($cpuinfo =~ /Revision\s+: (\w+)/s) {
   elsif($1 eq "a020d3") {
     $model = "3 Model B+ // 1400 MHz // 1gb";
   }
+  elsif($1 eq "0012") {
+    $model = "A+ // 700 MHz // 256mb";
+  }
 }
 $out .= "\n#" . "\n# model -- https://elinux.org/RPi_HardwareHistory" . "\n#";
 $out .= "\n\n$1: $model\n";

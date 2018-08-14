@@ -1,5 +1,5 @@
 
 TZ=America/Denver
 
-* * * * * pi /home/pi/bin/new.pl >> /home/pi/log/new
+* * * * * pi /home/pi/bin/shoot.pl >> /home/pi/log/shoot
 

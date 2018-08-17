@@ -101,7 +101,17 @@ $out .= "\n\n" . $netstat . "\n";
 #
 #
 
-print $out;
+if(&run("/usr/bin/which mopicli")) {
+  my $mopicli = &run("/usr/sbin/mopicli -e");
+  $out .= "\n#\n" . "# mopicli" . "\n#";
+  $out .= "\n\n" . $mopicli . "\n";
+}
+
+#
+#
+#
+
+print "$out\n";
 
 exit;
 

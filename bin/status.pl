@@ -101,7 +101,7 @@ $out .= "\n\n" . $netstat . "\n";
 #
 #
 
-if(&run("/usr/bin/which mopicli")) {
+if(-e "/usr/sbin/mopicli") {
   my $mopicli = &run("/usr/sbin/mopicli -e");
   $out .= "\n#\n" . "# mopicli" . "\n#";
   $out .= "\n\n" . $mopicli . "\n";

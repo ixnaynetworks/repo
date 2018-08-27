@@ -56,6 +56,22 @@ $out .= "\n#\n" . "# uptime" . "\n#";
 $out .= "\n\n" . $uptime . "\n";
 
 #
+# temp
+#
+
+my $vcgencmd = &run("/opt/vc/bin/vcgencmd measure_temp");
+
+my $temp;
+if($vcgencmd =~ /^temp=(.*)'C/) {
+  $temp = sprintf "%.1f", (($1 * 9) / 5) + 32;
+
+  $out .= "\n#\n" . "# temp" . "\n#";
+  $out .= "\n\n" . $temp . "\n";
+
+  push(@graph, $hostname . "_temp=$temp");
+}
+
+#
 #
 #
 

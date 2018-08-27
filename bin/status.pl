@@ -96,7 +96,7 @@ if($netstat =~ /wlan\d/)
       my $iwconfig = &run("/sbin/iwconfig $interface");
       $out .= "\n" . $iwconfig;
 
-      $out =~ /Link Quality=(\d\d?)/;
+      if($out =~ /Signal Qulevel=(\d\d\d??)/;
       push(@graph, $hostname . "_link_quality=$1");
     }
   }
@@ -109,10 +109,36 @@ $out .= "\n\n" . $netstat . "\n";
 #
 #
 
-if(-e "/usr/sbin/mopicli") {
+if(-e "/usr/sbin/mopicli")
+{
   my $mopicli = &run("/usr/sbin/mopicli -e");
+
   $out .= "\n#\n" . "# mopicli" . "\n#";
   $out .= "\n\n" . $mopicli . "\n";
+
+  if($mopicli =~ /Current source voltage: (\d+)/m) {
+    push(@graph, $hostname . "_voltage=$1");
+  }
+}
+
+#
+#
+#
+
+if($netstat =~ /192.168.2.1\s/m)
+{
+  my $login = `/usr/bin/curl -s -k "https://192.168.2.1/api/login?username=admin&password=ekst3rr\@"`;
+  if($login =~ /"token" : "(.*?)"/m)
+  {
+    my $ppp = &run("/usr/bin/curl -s -k \"https://192.168.2.1/api/stats/ppp?token=$1\"");
+
+    $out .= "\n#\n" . "# ppp" . "\n#";
+    $out .= "\n\n" . $ppp . "\n";
+
+    if($ppp =~ /"rssi" : "(\d+)"/m) {
+      push(@graph, $hostname . "_rssi=$1");
+    }
+  }
 }
 
 #
@@ -141,7 +167,7 @@ print "$out\n";
 # graph?
 #
 
-my $cmd = "/usr/bin/ssh uaws2 www/vhosts/ixnay/bin/graph4.pl $time " . join(" ", join("=", @graph));
+my $cmd = "/usr/bin/ssh uaws2 www/vhosts/ixnay/bin/graph4.pl $time " . join(" ", @graph);
 print "$cmd\n";
 my $out = `$cmd`;
 print "$out\n";

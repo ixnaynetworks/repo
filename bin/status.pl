@@ -8,6 +8,7 @@ my $out;
 #
 
 my $hostname = &run("/bin/hostname");
+chomp($hostname);
 
 $out .= "\n#\n" . "# hostname" . "\n#";
 $out .= "\n\n" . $hostname . "\n";
@@ -84,13 +85,20 @@ foreach my $interface (sort @interface) {
   $out .= "\n" . $ifconfig;
 }
 
-$out .= "\n#\n" . "# iwconfig" . "\n#";
-$out .= "\n";
+if($netstat =~ /wlan\d/)
+{
+  $out .= "\n#\n" . "# iwconfig" . "\n#";
+  $out .= "\n";
 
-foreach my $interface (sort @interface) {
-  if($interface =~ /^w/) {
-    my $iwconfig = &run("/sbin/iwconfig $interface");
-    $out .= "\n" . $iwconfig;
+  foreach my $interface (sort @interface) {
+    if($interface =~ /^w/)
+    {
+      my $iwconfig = &run("/sbin/iwconfig $interface");
+      $out .= "\n" . $iwconfig;
+
+      $out =~ /Link Quality=(\d\d?)/;
+      push(@graph, $hostname . "_link_quality=$1");
+    }
   }
 }
 
@@ -111,6 +119,31 @@ if(-e "/usr/sbin/mopicli") {
 #
 #
 
+print "$out\n";
+
+#
+# copy files
+#
+
+my $time = time();
+
+my $file = "$time.txt";
+open(FILE, ">/home/pi/status/$file");
+print FILE $out;
+close(FILE);
+
+my $cmd = "/usr/bin/rsync --timeout=10 -avz /home/pi/status uaws2:cams/$hostname ; /usr/bin/ssh uaws2 /bin/cp cams/$hostname/status/$file cams/$hostname/status.txt";
+print "$cmd\n";
+my $out = `$cmd`;
+print "$out\n";
+
+#
+# graph?
+#
+
+my $cmd = "/usr/bin/ssh uaws2 www/vhosts/ixnay/bin/graph4.pl $time " . join(" ", join("=", @graph));
+print "$cmd\n";
+my $out = `$cmd`;
 print "$out\n";
 
 exit;

@@ -96,8 +96,12 @@ if($netstat =~ /wlan\d/)
       my $iwconfig = &run("/sbin/iwconfig $interface");
       $out .= "\n" . $iwconfig;
 
-      if($out =~ /Signal Qulevel=(\d\d\d??)/;
-      push(@graph, $hostname . "_link_quality=$1");
+      if($out =~ /Signal level=(\d\d?\d?)\/100/) {
+        push(@graph, $hostname . "_signal_level_pct=$1");
+      }
+      elsif($out =~ /Signal level=\-(\d\d?\d?) dBm/) {
+        push(@graph, $hostname . "_signal_level_dbm=$1");
+      }
     }
   }
 }
@@ -151,6 +155,8 @@ print "$out\n";
 # copy files
 #
 
+print "\n#\n", "# copy files", "\n#\n\n";
+
 my $time = time();
 
 my $file = "$time.txt";
@@ -166,6 +172,8 @@ print "$out\n";
 #
 # graph?
 #
+
+print "\n#\n", "# graph", "\n#\n\n";
 
 my $cmd = "/usr/bin/ssh uaws2 www/vhosts/ixnay/bin/graph4.pl $time " . join(" ", @graph);
 print "$cmd\n";

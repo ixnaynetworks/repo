@@ -1,5 +1,14 @@
 #!/usr/bin/perl
 
+$| = 1;
+
+my $sleep = int(rand(40)) + 10;
+print "\nsleeping $sleep\s...";
+sleep($sleep);
+
+#
+#
+#
 
 my $out;
 
@@ -167,7 +176,7 @@ if($netstat =~ /192.168.2.1\s/m)
 
 if(-e "/usr/bin/iperf3")
 {
-  my $iperf3 = &run("/usr/bin/iperf3 -c 10.9.0.1 -t5 -fK");
+  my $iperf3 = &run("/usr/bin/iperf3 -c 10.9.0.1 -n5000000 -fK");
 
   $out .= "\n#\n" . "# iperf3" . "\n#";
   $out .= "\n\n" . $iperf3 . "\n";

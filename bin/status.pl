@@ -176,7 +176,7 @@ if($netstat =~ /192.168.2.1\s/m)
 
 if(-e "/usr/bin/iperf3")
 {
-  my $iperf3 = &run("/usr/bin/iperf3 -c 10.9.0.1 -n5000000 -fK");
+  my $iperf3 = &run("/usr/bin/iperf3 -c 35.162.236.91 -n5000000 -fK");
 
   $out .= "\n#\n" . "# iperf3" . "\n#";
   $out .= "\n\n" . $iperf3 . "\n";
@@ -231,7 +231,7 @@ sub run
 {
   my($cmd) = @_;
 
-  #print "cmd=$cmd\n";
+  #print "$cmd\n";
   my $out = `$cmd 2>&1`;
   chomp($out);
   #print "out=$out\n";

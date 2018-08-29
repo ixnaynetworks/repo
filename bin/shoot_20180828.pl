@@ -264,7 +264,7 @@ sub shoot
   }
 
   ## stamp
-  my $cmd = "/home/pi/bin/format_20180622.pl /home/pi/raw/$file $w $h $logo";
+  my $cmd = "/home/pi/bin/format_20180828.pl /home/pi/raw/$file $w $h $logo";
   print "cmd=$cmd\n";
   my $out = `$cmd`;
   print "out=$out\n";

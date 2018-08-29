@@ -1,0 +1,1 @@
+sudo apt-get install openvpn git imagemagick libav-tools libdatetime-perl libdatetime-event-sunrise-perl 

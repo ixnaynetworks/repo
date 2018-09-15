@@ -2,9 +2,12 @@
 
 $| = 1;
 
-my $sleep = int(rand(40)) + 10;
-print "\nsleeping $sleep\s...";
-sleep($sleep);
+unless($ARGV[0] eq "now")
+{
+  my $sleep = int(rand(40)) + 10;
+  print "\nsleeping $sleep\s...";
+  sleep($sleep);
+}
 
 #
 #
@@ -201,6 +204,8 @@ print "\n#\n", "# copy files", "\n#\n\n";
 my $time = time();
 
 my $file = "$time.txt";
+
+mkdir("/home/pi/status") unless(-e "/home/pi/status");
 open(FILE, ">/home/pi/status/$file");
 print FILE $out;
 close(FILE);

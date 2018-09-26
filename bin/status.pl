@@ -36,7 +36,7 @@ if($cpuinfo =~ /Revision\s+: (\w+)/s) {
   if($1 eq "0010") {
     $model = "B+ // 700 MHz // 512mb";
   }
-  elsif($1 eq "a02082") {
+  elsif($1 =~ /a[02]2082/) {
     $model = "3 Model B // 1200 MHz // 1gb";
   }
   elsif($1 eq "a020d3") {

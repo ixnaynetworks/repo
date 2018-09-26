@@ -29,6 +29,15 @@ $out .= "\n\n" . $hostname . "\n";
 #
 #
 
+my $date = &run("/bin/date");
+
+$out .= "\n#\n" . "# date" . "\n#";
+$out .= "\n\n" . $date . "\n";
+
+#
+#
+#
+
 my $cpuinfo = &run("/bin/cat /proc/cpuinfo");
 
 my $model;
@@ -53,10 +62,10 @@ $out .= "\n\n$1: $model\n";
 #
 #
 
-my $date = &run("/bin/date");
+my $os = &run("/bin/cat /etc/os-release");
 
-$out .= "\n#\n" . "# date" . "\n#";
-$out .= "\n\n" . $date . "\n";
+$out .= "\n#\n" . "# os-release" . "\n#";
+$out .= "\n\n" . $os . "\n";
 
 #
 #

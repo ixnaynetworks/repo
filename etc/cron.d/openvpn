@@ -1,0 +1,5 @@
+
+TZ=America/Denver
+
+0 * * * * root /usr/sbin/service openvpn restart
+

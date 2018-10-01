@@ -202,7 +202,7 @@ if(-e "/usr/bin/iperf3")
 #
 #
 
-my $top = &run("/usr/bin/top -n1");
+my $top = &run("/usr/bin/top -b -n1 | /usr/bin/head -30");
 
 $out .= "\n#\n" . "# top" . "\n#";
 $out .= "\n\n" . $top . "\n";

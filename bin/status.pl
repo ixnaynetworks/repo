@@ -19,20 +19,20 @@ my $out;
 #
 #
 
+my $date = &run("/bin/date");
+
+$out .= "\n#\n" . "# date" . "\n#";
+$out .= "\n\n" . $date . "\n";
+
+#
+#
+#
+
 my $hostname = &run("/bin/hostname");
 chomp($hostname);
 
 $out .= "\n#\n" . "# hostname" . "\n#";
 $out .= "\n\n" . $hostname . "\n";
-
-#
-#
-#
-
-my $date = &run("/bin/date");
-
-$out .= "\n#\n" . "# date" . "\n#";
-$out .= "\n\n" . $date . "\n";
 
 #
 #
@@ -197,6 +197,15 @@ if(-e "/usr/bin/iperf3")
     push(@graph, $hostname . "_bandwidth=$1");
   }
 }
+
+#
+#
+#
+
+my $top = &run("/usr/bin/top -n1");
+
+$out .= "\n#\n" . "# top" . "\n#";
+$out .= "\n\n" . $top . "\n";
 
 #
 #

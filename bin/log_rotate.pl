@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 
-#print "sleeping 50s...\n";
-#sleep 50;
+print "sleeping 50s...\n";
+sleep 50;
 
 my $date = `/bin/date +"%Y%m%d"`;
 chomp($date);

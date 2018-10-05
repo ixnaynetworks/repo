@@ -125,6 +125,9 @@ sub stream_stop
 {
   my $pid = &stream_pid();
 
+  ## let the next stream buffer...
+  sleep 1;
+
   if($pid) {
     print "ffmpeg is running ($pid)!";
     `/bin/kill $pid`;

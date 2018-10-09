@@ -125,8 +125,8 @@ sub stream_stop
 {
   my $pid = &stream_pid();
 
-  ## let the next stream buffer...
-  sleep 10;
+  ## let the next cam take a pic and the stream buffer...
+  sleep 15;
 
   if($pid) {
     print "ffmpeg is running ($pid)!";

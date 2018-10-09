@@ -51,7 +51,7 @@ else
   if(&stream_pid())
   {
     ## the stream just got switched to another cam
-    sleep 10;
+    sleep 12;
   }
   &stream_stop();
   $file = &shoot();

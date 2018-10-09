@@ -48,6 +48,11 @@ if(-e "/home/pi/conf/streaming")
 }
 else
 {
+  if(&stream_pid())
+  {
+    ## the stream just got switched to another cam
+    sleep 10;
+  }
   &stream_stop();
   $file = &shoot();
 }
@@ -125,14 +130,13 @@ sub stream_stop
 {
   my $pid = &stream_pid();
 
-  ## let the next cam take a pic and the stream buffer...
-  sleep 15;
-
-  if($pid) {
+  if($pid)
+  {
     print "ffmpeg is running ($pid)!";
     `/bin/kill $pid`;
+
     ## sleep here because if no process was found it is unnecessary
-    sleep 1;
+    #sleep 1;
   }
 }
 

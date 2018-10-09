@@ -81,15 +81,15 @@ sub upload_scheduled
   if(($ARGV[0] eq "upload") or ($ARGV[0] eq "up")) {
     $upload = 1;
   }
-  elsif(-e "/home/pi/conf/streaming") {
-    ## only interrupt long-running stream
-    #if(time() - (stat("/home/pi/conf/streaming"))[9] > 630) {
-      ## upload every-10-minutes during stream
-      if($min =~ /0$/) {
-        $upload = 1;
-      }
-    #}
-  }
+  #elsif(-e "/home/pi/conf/streaming") {
+  #  ## only interrupt long-running stream
+  #  if(time() - (stat("/home/pi/conf/streaming"))[9] > 630) {
+  #    ## upload every-10-minutes during stream
+  #    if($min =~ /0$/) {
+  #      $upload = 1;
+  #    }
+  #  }
+  #}
   elsif(($hr < 6) or ($hr > 21)) {
     if($min =~ /0$/) {
       ## upload every-10-minutes before 6am and after 10pm

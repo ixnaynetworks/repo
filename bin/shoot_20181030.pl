@@ -204,8 +204,8 @@ sub stream_start
     #
 
     ## raspivid, 8000... probably too high
-    #my $cmd = "/usr/bin/raspivid -o - -t 0 -vf -hf -b 8000000 -fps 30 -rot $rot -w 1280 -h 720 -a 1036";
-    my $cmd = "/usr/bin/raspivid -o - -t 0 -vf -hf -b 8000000 -fps 30 -rot $rot -w 1280 -h 960 -a 1036";
+    my $cmd = "/usr/bin/raspivid -o - -t 0 -vf -hf -b 8000000 -fps 30 -rot $rot -w 1280 -h 720 -a 1036";
+    #my $cmd = "/usr/bin/raspivid -o - -t 0 -vf -hf -b 8000000 -fps 30 -rot $rot -w 1280 -h 960 -a 1036";
 
     ## https://trac.ffmpeg.org/wiki/EncodingForStreamingSites
     ## -f <format>
@@ -219,16 +219,16 @@ sub stream_start
     ## video input, from pipe
     $cmd .= " -f h264 -i -";
 
-    ## logo input, and params
+    ## logo input
     $cmd .= " -i $logo";
 
     ## video output params, -g twice framerate
     #$cmd .= " -vcodec copy -acodec aac -ab 128k -g 60 -strict experimental -f flv";
     #$cmd .= " -vcodec copy -acodec aac -ab 128k -g 60 -f flv";
     $cmd .= " -c:v libx264 -preset ultrafast -tune zerolatency -g 60 -acodec aac -ab 128k";
-    #$cmd .= " -filter_complex 'overlay=main_w-overlay_w-10:10'";
+    $cmd .= " -filter_complex 'overlay=main_w-overlay_w-10:10'";
     ## this will crop the counter...
-    $cmd .= " -filter_complex 'crop=1280:720:0:60, overlay=main_w-overlay_w-10:10'";
+    #$cmd .= " -filter_complex 'crop=1280:720:0:60, overlay=main_w-overlay_w-10:10'";
 
     ## no flag, so this is the output
     $cmd .= " -f flv rtmp://a.rtmp.youtube.com/live2/$key";

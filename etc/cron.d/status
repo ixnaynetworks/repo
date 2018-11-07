@@ -1,5 +1,8 @@
 
 TZ=America/Denver
 
-*/10 * * * * pi /home/pi/bin/status.pl > /home/pi/status.txt ; /usr/bin/scp /home/pi/status.txt uaws2:www/vhosts/ixnay/htdocs/cams/`hostname`
+*/10 * * * * pi /home/pi/bin/status.pl
+
+## cleanup
+9 14 * * * pi /usr/bin/find /home/pi/status -name "*.txt" -mtime +7 -delete
 

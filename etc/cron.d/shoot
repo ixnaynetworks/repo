@@ -3,3 +3,8 @@ TZ=America/Denver
 
 * * * * * pi /home/pi/bin/shoot.pl >> /home/pi/log/shoot
 
+## cleanup 
+9 11 * * * pi /usr/bin/find /home/pi/raw /home/pi/upload -name "*.jpg" -mtime +1 -delete
+9 12 * * * pi /usr/bin/find /home/pi/arc                 -name "*.jpg" -mtime +7 -delete
+9 13 * * 0 pi /home/pi/bin/log_rotate.pl
+

@@ -1,0 +1,4 @@
+
+disable_camera_led=1
+dtoverlay=pi3-disable-wifi
+

@@ -19,12 +19,7 @@ if($count > 1) {
 use DateTime;
 use DateTime::Event::Sunrise;
 
-#
-# get latest configs
-#
-
 my $cam = $conf->name();
-$conf->load();
 
 #
 # stream or still?
@@ -87,8 +82,14 @@ if($out =~ /Exposure time: (\d+\.\d+) s/s) {
   close(SS);
 }
 
-#   rsync config, with random sleep?
-#   
+#
+# rsync config, with random sleep?
+#
+
+my $sleep_num = sprintf("%0.1f", rand(10));
+print "sleeping $sleep_num...\n";
+sleep $sleep_num;
+$conf->refresh();
 
 exit;
 
@@ -247,18 +248,18 @@ sub stream_start
 
 ## old
 
-    #$cmd .= " -vcodec copy";
+    $cmd .= " -vcodec copy";
 
 ## begin new
 
     ## logo input, and params
-    $cmd .= " -i " . $conf->video_logo();
+    #$cmd .= " -i " . $conf->video_logo();
 
     ## video output params, -g twice framerate
-    $cmd .= " -c:v libx264 -preset ultrafast -tune zerolatency -g 60 -acodec aac -ab 128k";
+    #$cmd .= " -c:v libx264 -preset ultrafast -tune zerolatency -g 60 -acodec aac -ab 128k";
 
     ## add the logo, with pos
-    $cmd .= " -filter_complex " . $conf->video_logo_pos();
+    #$cmd .= " -filter_complex " . $conf->video_logo_pos();
 
 ## end new
 

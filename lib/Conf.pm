@@ -35,7 +35,7 @@ sub name
 # load from server
 #
 
-sub load
+sub refresh
 {
   my($self) = @_;
 

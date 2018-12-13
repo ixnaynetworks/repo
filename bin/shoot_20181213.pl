@@ -42,7 +42,7 @@ if(-e "/home/pi/conf/streaming")
 {
   if(&upload_scheduled()) {
     &stream_stop();
-    sleep 1;  ## let the cam recover?
+    sleep 2;  ## let the cam recover?
     $file = &shoot();
   }
 
@@ -245,6 +245,12 @@ sub stream_start
     ## video input, from pipe
     $cmd .= " -f h264 -i -";
 
+## old
+
+    #$cmd .= " -vcodec copy";
+
+## begin new
+
     ## logo input, and params
     $cmd .= " -i " . $conf->video_logo();
 
@@ -253,6 +259,8 @@ sub stream_start
 
     ## add the logo, with pos
     $cmd .= " -filter_complex " . $conf->video_logo_pos();
+
+## end new
 
     ## no flag, so this is the output
     $cmd .= " -f flv rtmp://a.rtmp.youtube.com/live2/$key";

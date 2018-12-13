@@ -14,6 +14,41 @@ sub new
   return $self;
 }
 
+#
+#
+#
+
+sub name
+{
+  my($self) = @_;
+
+  unless($self->{'name'})
+  {
+    $self->{'name'} = `/bin/hostname`;
+    chomp($self->{'name'});
+  }
+
+  return $self->{'name'};
+}
+
+#
+# load from server
+#
+
+sub load
+{
+  my($self) = @_;
+
+  my $cmd = "/usr/bin/rsync --timeout=10 -avz --delete uaws2:www/vhosts/ixnay/htdocs/cams/" . $self->{'name'} . "/conf /home/pi";
+  print "$cmd\n";
+  my $out = `$cmd`;
+  print "$out\n\n";
+}
+
+#
+# returns a standard date string
+#
+
 sub date
 {
   my($self) = @_;

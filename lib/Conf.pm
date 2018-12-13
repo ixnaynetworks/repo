@@ -146,6 +146,7 @@ sub rot
 #
 #
 
+## remove this after pmv is updated
 sub logo_video
 {
   my($self) = @_;
@@ -162,5 +163,38 @@ sub logo_video
   return $self->{'logo_video'};
 }
 
+sub video_logo
+{
+  my($self) = @_;
+
+  unless($self->{'video_logo'}) {
+    if(-e "/home/pi/vals/bg_bright") {
+      $self->{'video_logo'} = "/home/pi/conf/logo_day.png";
+    }
+    else {
+      $self->{'video_logo'} = "/home/pi/conf/logo_night.png";
+    }
+  }
+
+  return $self->{'video_logo'};
+}
+
+sub video_logo_pos
+{
+
+  my($self) = @_;
+
+  unless($self->{'video_logo_pos'}) {
+    if(-e "/home/pi/conf/logo_northeast") {
+      ## main_w is the video dimension.  overlay_w is the image dimension
+      $self->{'video_logo_pos'} = "'overlay=main_w-overlay_w-10:10'";
+    }
+    else {
+      $self->{'video_logo_pos'} = "'overlay=10:10'";
+    }
+  }
+
+  return $self->{'video_logo_pos'};
+}
 1;
 

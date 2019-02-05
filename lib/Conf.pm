@@ -39,10 +39,33 @@ sub refresh
 {
   my($self) = @_;
 
-  my $cmd = "/usr/bin/rsync --timeout=10 -avz --delete uaws2:www/vhosts/ixnay/htdocs/cams/" . $self->{'name'} . "/conf /home/pi";
-  print "$cmd\n";
-  my $out = `$cmd`;
-  print "$out\n\n";
+  #
+  # test if refresh is necessary
+  #
+
+  ## client
+  my($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size, $atime,$mtime,$ctime,$blksize,$blocks) = stat("/home/pi/conf");
+  my($sec, $min, $hour, $mday, $mon, $year) = localtime($mtime);
+  my $client = sprintf("%s-%02d-%02d %02d:%02d", $year + 1900, $mon + 1, $mday, $hour, $min);
+
+  ## server
+  my $cmd = "/usr/bin/curl -s https://www.ixnay.net/cams/" . $self->name() . "/";
+  my $html = `$cmd`;
+  my $server;
+  if($html =~ /<td><a href="conf\/">conf\/<\/a><\/td><td align="right">(\d+\-\d+\-\d+ \d+:\d+)\s+<\/td>/s) {
+    $server = $1;
+  }
+
+  #
+  # rsync?
+  #
+
+  if($server ne $client) {
+    my $cmd = "/usr/bin/rsync --timeout=10 -avz --delete uaws2:www/vhosts/ixnay/htdocs/cams/" . $self->{'name'} . "/conf /home/pi";
+    #print "$cmd\n";
+    my $out = `$cmd`;
+    #print "$out\n\n";
+  }
 }
 
 #

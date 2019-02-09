@@ -202,6 +202,15 @@ if(-e "/usr/bin/iperf3")
 #
 #
 
+my $uvolt = &run("/bin/grep Under-voltage /var/log/syslog");
+
+$out .= "\n#\n" . "# uvolt" . "\n#";
+$out .= "\n\n" . $uvolt . "\n";
+
+#
+#
+#
+
 my $top = &run("/usr/bin/top -b -n1 | /usr/bin/head -30");
 
 $out .= "\n#\n" . "# top" . "\n#";

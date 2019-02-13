@@ -173,6 +173,24 @@ sub rot
 #
 #
 
+sub streaming
+{
+  my($self) = @_;
+
+  my $cmd = "/usr/bin/curl -s 'https://www.ixnay.net/cams/" . $self->name() . "/conf/streaming'";
+  print "$cmd\n";
+  my $out = `$cmd`;
+  print "$out\n";
+
+  my $key;
+  unless($out =~ /404 Not Found/s) {
+    $key = $out;
+    chomp($key);
+  }
+
+  return $key;
+}
+
 ## remove this after pmv is updated
 sub logo_video
 {
@@ -223,5 +241,6 @@ sub video_logo_pos
 
   return $self->{'video_logo_pos'};
 }
+
 1;
 

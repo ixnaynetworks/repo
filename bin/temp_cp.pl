@@ -1,5 +1,8 @@
 #!/usr/bin/perl
 
+my $sec = rand(50);
+sleep $sec;
+
 my $cmd = "/usr/bin/curl -s 'http://www.skicherrypeak.com/rpt/?snow-report'";
 #print "$cmd\n";
 my $out = `$cmd`;

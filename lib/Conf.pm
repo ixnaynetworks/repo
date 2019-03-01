@@ -314,16 +314,32 @@ print "arg=$arg\n";
   }
   print "\n";
 
+  my $temp;
   if(-e "/home/pi/temp.txt")
   {
     open(TEMP, "/home/pi/temp.txt");
     $temp = <TEMP>;
     close(TEMP);
     chomp($temp);
+  }
 
-    if($temp) {
-      $label .= " // $temp" . "°f";
-    }
+  my $bulb;
+  if(-e "/home/pi/bulb.txt")
+  {
+    open(BULB, "/home/pi/bulb.txt");
+    $bulb = <BULB>;
+    close(BULB);
+    chomp($bulb);
+  }
+
+  if($temp and $bulb) {
+    $label .= " // Air: $temp" . "°f // Wet Bulb: $bulb" . "°f";
+  }
+  #if($bulb) {
+  #  $label .= " // Wet Bulb: $bulb" . "°f";
+  #}
+  elsif($temp) {
+    $label .= " // $temp" . "°f";
   }
 
   #

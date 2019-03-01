@@ -9,9 +9,16 @@ my $out = `$cmd`;
 #print "$out\n";
 
 my($station) = @ARGV;
+
 if($out =~ /$station.*?Air Temperature: <\/span><span class="Normal_text xr_s8" style="">(\d\d)\./si) {
   open(FILE, ">/home/pi/temp.txt");
   print FILE $1;
   close(FILE);
+}
+
+if($out =~ /$station.*?We[bt] Bulb: <\/span><span class="Normal_text xr_s8" style="">(\d\d)\./si) {
+  open(BULB, ">/home/pi/bulb.txt");
+  print BULB $1;
+  close(BULB);
 }
 

@@ -15,10 +15,16 @@ if($out =~ /$station.*?Air Temperature: <\/span><span class="Normal_text xr_s8" 
   print FILE $1;
   close(FILE);
 }
+else {
+  unlink("/home/pi/temp.txt");
+}
 
 if($out =~ /$station.*?We[bt] Bulb: <\/span><span class="Normal_text xr_s8" style="">(\d\d)\./si) {
   open(BULB, ">/home/pi/bulb.txt");
   print BULB $1;
   close(BULB);
+}
+else {
+  unlink("/home/pi/bulb.txt");
 }
 

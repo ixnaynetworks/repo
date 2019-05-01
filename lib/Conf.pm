@@ -290,15 +290,25 @@ print "arg=$arg\n";
   chomp($brightness);
   print "\n$brightness";
 
+  my $thresh;
+  if(-e "$base/vals/bg_dark") {
+    $thresh = 0.3;
+  }
+  else {
+    $thresh = 0.2;
+  }
+
   my $logo;
   mkdir "$base/vals" unless(-e "$base/vals");
-  if($brightness > 0.3) {
+  if($brightness > $thresh) {
     $logo = "$base/conf/logo_day.png";
-    `/bin/rm $base/vals/bg_dark ; /usr/bin/touch $base/vals/bg_bright`;
+    unlink("$base/vals/bg_dark");
+    `/usr/bin/touch $base/vals/bg_bright`;
   }
   else {
     $logo = "$base/conf/logo_night.png";
-    `/bin/rm $base/vals/bg_bright ; /usr/bin/touch $base/vals/bg_dark`;
+    unlink("$base/vals/bg_bright");
+    `/usr/bin/touch $base/vals/bg_dark`;
   }
   print "\n\nlogo=$logo";
 

@@ -386,5 +386,50 @@ print "arg=$arg\n";
   print "\n";
 }
 
+#
+#
+#
+
+sub pi_model
+{
+  my($self) = @_;
+
+  unless($self->{'pi_model'})
+  {
+    my $cpuinfo = &cmd_run("/bin/cat /proc/cpuinfo");
+
+    ## https://elinux.org/RPi_HardwareHistory
+    if($cpuinfo =~ /Revision\s+: (\w+)/s) {
+print "here\n";
+      if($1 eq "0010") {
+        $self->{'pi_model'} = "$1: B+ // 700 MHz // 512mb";
+      }
+      elsif($1 =~ /a[02]2082/) {
+        $self->{'pi_model'} = "$1: 3 Model B // 1200 MHz // 1gb";
+      }
+      elsif($1 eq "a020d3") {
+        $self->{'pi_model'} = "$1: 3 Model B+ // 1400 MHz // 1gb";
+      }
+      elsif($1 eq "0012") {
+        $self->{'pi_model'} = "$1: A+ // 700 MHz // 256mb";
+      }
+    }
+  }
+
+  return $self->{'pi_model'};
+}
+
+sub cmd_run
+{
+  my($cmd) = @_;
+
+  #print "$cmd\n";
+  my $out = `$cmd 2>&1`;
+  chomp($out);
+  #print "out=$out\n";
+
+  return $out;
+}
+
 1;
 

@@ -1,13 +1,18 @@
 #!/usr/bin/perl
 
-$| = 1;
-
 unless($ARGV[0] eq "now")
 {
   my $sleep = int(rand(40)) + 10;
   print "\nsleeping $sleep\s...";
   sleep($sleep);
 }
+
+$| = 1;
+
+use lib '/home/pi/lib';
+use Conf;
+
+my $conf = new Conf;
 
 #
 #
@@ -38,25 +43,9 @@ $out .= "\n\n" . $hostname . "\n";
 #
 #
 
-my $cpuinfo = &run("/bin/cat /proc/cpuinfo");
-
-my $model;
-if($cpuinfo =~ /Revision\s+: (\w+)/s) {
-  if($1 eq "0010") {
-    $model = "B+ // 700 MHz // 512mb";
-  }
-  elsif($1 =~ /a[02]2082/) {
-    $model = "3 Model B // 1200 MHz // 1gb";
-  }
-  elsif($1 eq "a020d3") {
-    $model = "3 Model B+ // 1400 MHz // 1gb";
-  }
-  elsif($1 eq "0012") {
-    $model = "A+ // 700 MHz // 256mb";
-  }
-}
+my $model = $conf->pi_model();
 $out .= "\n#" . "\n# model -- https://elinux.org/RPi_HardwareHistory" . "\n#";
-$out .= "\n\n$1: $model\n";
+$out .= "\n\n$model\n";
 
 #
 #

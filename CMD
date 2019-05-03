@@ -2,10 +2,11 @@ sudo apt-get -y install openvpn git imagemagick libav-tools libdatetime-perl lib
 
 rsync -avz --delete uaws2:cams/`hostname`/conf /home/pi
 
-mkdir /home/pi/bin
+mkdir /home/pi/bin /home/pi/lib
 cp `ls -1 bin/shoot_2*.pl | tail -1` /home/pi/bin
 cp bin/status.pl /home/pi/bin
 cp bin/log_rotate.pl /home/pi/bin
 
 ## copy crons
+sudo cp etc/cron.d/status etc/cron.d/shoot /etc/cron.d
 

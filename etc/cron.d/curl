@@ -1,0 +1,5 @@
+
+*/5 * * * * pi           /home/pi/bin/curlcam.pl 23 lot.jpg
+*/5 * * * * pi sleep 20; /home/pi/bin/curlcam.pl 19 gateway.jpg
+*/5 * * * * pi sleep 40; /home/pi/bin/curlcam.pl 27 tubing.jpg
+

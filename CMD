@@ -8,7 +8,8 @@ sudo apt-get -y install openvpn git imagemagick libav-tools libdatetime-perl lib
 ## openvpn
 sudo modprobe tun
 sudo cp /home/pi/repo/etc/openvpn/client.conf /etc/openvpn
-sudo vi /etc/openvpn/clien.conf
+sudo vi /etc/openvpn/client.conf
+sudo openvpn --genkey --secret /etc/openvpn/rpi33b.key
 sudo vi /etc/openvpn/rpi14b.key
 ## reboot
 
